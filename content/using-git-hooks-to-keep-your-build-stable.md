@@ -1,7 +1,7 @@
 Title: Using Git hooks to keep your build stable
 Date: 2013-08-13 12:46
 Author: Johannes Seitz
-Category: Agile, Continuous Integration, Testing
+Category: Testing
 Slug: using-git-hooks-to-keep-your-build-stable
 
 A little known fact is that Git supports client-side hooks to execute a
@@ -14,8 +14,7 @@ yourself in the foot.
 
 <!--more-->
 
-How Git hooks work
-------------------
+#### How Git hooks work
 
 Creating a hook is very simple: all you need to do is create a shell
 script in the `.git/hooks/` directory of an existing Git repository. You
@@ -26,8 +25,7 @@ executable.
 
 ![Git hooks in the shell](|filename|/images/git-hooks.png)
 
-Make hooks test your every commit
----------------------------------
+#### Make hooks test your every commit
 
 I have commit hook perform a full compile and test of my code on every
 commit. Not only does this make sure that everything I commit is stable
@@ -36,8 +34,7 @@ less risky. Sure it may take some time for the compile and test to run,
 but the time you save, hunting down that issue you just inadvertently
 pushed to the master branch is closer to zero.
 
-Make your TODO comments nag
----------------------------
+#### Make your TODO comments nag
 
 I dislike the idea of TODO comments. They are usually markers of a
 [broken window][] but what's worse is that they tend to invisibly rot
@@ -60,7 +57,8 @@ untracked tasks in mind:
     def tasks
       puts green('> Checking TODOs...')
       
-      todo_files = `find . -not -path "./out/*" -not -path "./play*/*" -name "*.scala" -exec grep -q "TODO" {} \\; -print`
+      todo_files = `find . -not -path "./out/*" -not -path "./play*/*"
+                    -name "*.scala" -exec grep -q "TODO" {} \\; -print`
 
       unless todo_files.empty?
         puts red("> Please fix the following TODOs fist:")
@@ -73,8 +71,7 @@ untracked tasks in mind:
    
     tasks
 
-Share hooks
------------
+#### Share hooks
 
 The way Git hooks work, they are not pushed to the remote repository and
 thus not shared with your teammates. A simple solution for this issue is
@@ -96,7 +93,7 @@ Here's my symlink script:
 
     symlink
 
-### Conclusion
+#### Conclusion
 
 In my experience the usage of git hooks for quality assurance to a
 certain extend reduces the number of broken builds and broken windows.

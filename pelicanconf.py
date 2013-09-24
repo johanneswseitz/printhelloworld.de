@@ -21,12 +21,12 @@ STATIC_PATHS = ["images", ]
 LINKS =  (('Stefan Bechtold', 'http://www.bechte.de/'),
           ('Heiko Maaß', 'http://www.heikomaass.de/'),)
 
-THEME = "tuxlite_tbs"
+THEME = "tuxlite_zf"
 
 # Social widget
 SOCIAL = (('Twitter', 'https://twitter.com/ookami86'),)
 
-DEFAULT_PAGINATION = False
+DEFAULT_PAGINATION = 0
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True

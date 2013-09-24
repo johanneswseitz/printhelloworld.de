@@ -1,13 +1,13 @@
 Title: Resisting marshmallows is hard. Adopting TDD, too.
 Date: 2013-04-10 14:01
 Author: joseitz
-Category: Agile, TDD, Testing
+Category: Psychology
 Slug: be-aware-of-hyperbolic-discounting-when-adopting-tdd
 
 We are not as rational as we think we are. Or as Dan Ariley might put
 it: [We're All Predictably Irrational][]. The other day I read "Die
 Kunst des klaren Denkens" (lit: The art of clear thinking) by Swiss
-author Rolf Dobelli. One of the common logical fallacies Dobelli
+author Rolf Dobelli. One of the common logical fallacies Dobelli	
 describes in this book is the fallacy of [Hyperbolic Discounting][] -
 the inclination to value immediate rewards over over delayed rewards. It
 seems to me, this human predisposition like no other lies at the heart
@@ -74,8 +74,6 @@ test these spots you missed earlier. Be aware of the Hyperbolic
 Discounting fallacy and practice self-control. Your patience and
 discipline will be rewarded tenfold, eventually. It is the rational
 thing to do.
-
-<small>Featured image by John-Morgan</small>
 
   [We're All Predictably Irrational]: http://www.youtube.com/watch?v=JhjUJTw2i1M
   [Hyperbolic Discounting]: http://en.wikipedia.org/wiki/Hyperbolic_discounting

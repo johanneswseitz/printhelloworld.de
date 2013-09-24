@@ -9,7 +9,7 @@ a green field project! Finally, an opportunity, to do things right!
 Finally, a project I could develop in a Test-Driven fashion without the
 weight of any legacy cruft slowing me down! Or so I thought...
 
-[![][]][]
+![][]
 
 With a lot of enthusiasm I bootstrapped a new Maven Project and sure
 enough there was an Archetype with something called "Instrumentation
@@ -26,27 +26,25 @@ should have seen the signs on the wall...
 
 <!--more-->
 
-Shadowy depencencies
---------------------
+###Shadowy depencencies
 
-[![][1]][]
+![][1]
 
 I wrote a first test to check the "title" property of my main activity.
 Nothing too fancy. I hit the run key. And sure enough, my JUnit bar
 turned red. But wait a minute... What kind of strange test failure is
 that?
 
-` !!! JUnit version 3.8 or later expected:`
+    !!! JUnit version 3.8 or later expected:
 
-java.lang.RuntimeException: Stub!  
-at junit.runner.BaseTestRunner.<init>(BaseTestRunner.java:5)  
-at junit.textui.TestRunner.<init>(TestRunner.java:54)  
-at junit.textui.TestRunner.<init>(TestRunner.java:48)  
-at junit.textui.TestRunner.<init>(TestRunner.java:41)  
-...  
-</code>
+    java.lang.RuntimeException: Stub!  
+    at junit.runner.BaseTestRunner.<init>(BaseTestRunner.java:5)  
+    at junit.textui.TestRunner.<init>(TestRunner.java:54)  
+    at junit.textui.TestRunner.<init>(TestRunner.java:48)  
+    at junit.textui.TestRunner.<init>(TestRunner.java:41)  
+    ...
 
-[![][2]][]
+![][2]
 
 As it turns out, Google includes their own version of JUnit 3 with the
 Android SDK. So no JUnit 4 for me! Too bad. Later I figured out you can
@@ -57,14 +55,18 @@ dialog, as shown on the right. And don't forget to move your JUnit
 depdency above the Android depdencies in your pom.xml file as well,
 otherwise your CI and console build will run into similar trouble.
 
-Vicious Relatives
------------------
+### Vicious Relatives ###
 
 At first it didn't seem like the dependency order trick worked for me,
 until I took a better look and noticed the error message had changed
 slightly. No I was faced with a different error. It read:
 
-` java.lang.RuntimeException: Stub!     at android.content.Context.(Context.java:4)     at android.content.ContextWrapper.(ContextWrapper.java:5)     at android.view.ContextThemeWrapper.(ContextThemeWrapper.java:5)     at android.app.Activity.(Activity.java:6) ...`
+<pre>java.lang.RuntimeException: Stub!     
+  at android.content.Context.(Context.java:4)     
+  at android.content.ContextWrapper.(ContextWrapper.java:5)     
+  at android.view.ContextThemeWrapper.(ContextThemeWrapper.java:5)     
+  at android.app.Activity.(Activity.java:6) ...
+</pretty>
 
 After some debugging, decompilation and googling I found that Android
 classes my objects need to implement, like the 'android.app.Activity'
@@ -95,7 +97,7 @@ console told me that none of the tests ran. I found that I had to run
 the Maven "install" lifecycle goal in order for the tests to run. That
 doesn't make any sense... but fair enough. Here goes:
 
-[![][3]][]
+![][3]
 
 No devices Attached? Oh right, it's an integration test target. It needs
 a device to run. Big bummer.
@@ -115,7 +117,7 @@ without a Mocking library.
 Salvation
 ---------
 
-[![][4]][]
+![][4]
 
 So, at this point I was frustrated enough to consider just mocking the
 whole Google framework. Every. Single. Class. But hark! There is hope,
