@@ -1,6 +1,6 @@
 Title: Using Git hooks to keep your build stable
 Date: 2013-08-13 12:46
-Author: joseitz
+Author: Johannes Seitz
 Category: Agile, Continuous Integration, Testing
 Slug: using-git-hooks-to-keep-your-build-stable
 
@@ -24,7 +24,7 @@ end with `.sample`, rendering them inactive. If you create your own,
 make sure this script file you create starts with a [shebang][] and is
 executable.
 
-[![Screen Shot 2013-08-13 at 12.24.46][]][]
+![Git hooks in the shell](|filename|/images/git-hooks.png)
 
 Make hooks test your every commit
 ---------------------------------
@@ -44,36 +44,34 @@ I dislike the idea of TODO comments. They are usually markers of a
 and accumulate. Here's my pre-push hook to keep these broken windows and
 untracked tasks in mind:
 
-~~~~ {.lang:ruby .decode:true title="pre-push"}
-#!/usr/bin/env ruby
+    #!/usr/bin/env ruby
 
-def colorize(text, color_code)
-  "#{color_code}#{text}\033[0m\n"
-end
+    def colorize(text, color_code)
+      "#{color_code}#{text}\033[0m\n"
+    end
 
-def red(text); colorize(text, "\033[31m"); end
-def green(text); colorize(text, "\033[32m"); end
+    def red(text); colorize(text, "\033[31m"); end
+    def green(text); colorize(text, "\033[32m"); end
 
-def command?(command)
-  system("which #{ command} > /dev/null 2>&1")
-end
+    def command?(command)
+      system("which #{ command} > /dev/null 2>&1")
+    end
 
-def tasks
-  puts green('> Checking TODOs...')
-  
-  todo_files = `find . -not -path "./out/*" -not -path "./play*/*" -name "*.scala" -exec grep -q "TODO" {} \\; -print`
+    def tasks
+      puts green('> Checking TODOs...')
+      
+      todo_files = `find . -not -path "./out/*" -not -path "./play*/*" -name "*.scala" -exec grep -q "TODO" {} \\; -print`
 
-  unless todo_files.empty?
-    puts red("> Please fix the following TODOs fist:")
-    puts todo_files
-    exit 1
-  else
-    puts green('> All OK')
-  end
-end
- 
-tasks
-~~~~
+      unless todo_files.empty?
+        puts red("> Please fix the following TODOs fist:")
+        puts todo_files
+        exit 1
+      else
+        puts green('> All OK')
+      end
+    end
+   
+    tasks
 
 Share hooks
 -----------
@@ -87,18 +85,16 @@ shared, versioned and in-sync.
 
 Here's my symlink script:
 
-~~~~ {.lang:ruby .decode:true title="symlinkThem.rb"}
-#!/usr/bin/env ruby
+    #!/usr/bin/env ruby
 
-def symlink
-  ["pre-commit", "pre-push"].each do |command|
-  `ln -s -f ../../git-hooks/#{command} ../.git/hooks/#{command}`
-  `chmod +x ../.git/hooks/#{command}`
-  end
-end
+    def symlink
+      ["pre-commit", "pre-push"].each do |command|
+      `ln -s -f ../../git-hooks/#{command} ../.git/hooks/#{command}`
+      `chmod +x ../.git/hooks/#{command}`
+      end
+    end
 
-symlink
-~~~~
+    symlink
 
 ### Conclusion
 
@@ -111,6 +107,4 @@ hooks for quality assurance to the comment section!
 
   [exit status]: http://en.wikipedia.org/wiki/Exit_status
   [shebang]: http://de.wikipedia.org/wiki/Shebang
-  [Screen Shot 2013-08-13 at 12.24.46]: http://www.printhelloworld.de/wp-content/uploads/Screen-Shot-2013-08-13-at-12.24.46-300x232.png
-  [![Screen Shot 2013-08-13 at 12.24.46][]]: http://www.printhelloworld.de/wp-content/uploads/Screen-Shot-2013-08-13-at-12.24.46.png
   [broken window]: http://en.wikipedia.org/wiki/Broken_windows_theory

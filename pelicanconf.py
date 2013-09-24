@@ -15,6 +15,8 @@ FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
+STATIC_PATHS = ["images", ]
+
 # Blogroll
 LINKS =  (('Stefan Bechtold', 'http://www.bechte.de/'),
           ('Heiko Maaß', 'http://www.heikomaass.de/'),)
