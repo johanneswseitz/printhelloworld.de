@@ -13,10 +13,10 @@ tried to build an Xcode project, the build failed with the following
 message:  
 
 ` You have not agreed to the Xcode license agreements, please run xcodebuild standalone from within a Terminal window to review and agree to the Xcode license agreements. Build step 'XCode' marked build as failure Finished: FAILURE`  
+
 When I went to the terminal and entered the exact same build command
 from the Jenkins logs, the project built just fine. Weird. I googled for
 the error message, but did not find anything on the web.  
-<!--more-->
 
 Soon I discovered the problem: The installer package I got from
 http://jenkins-ci.org installed a LaunchDeamon configuration, running

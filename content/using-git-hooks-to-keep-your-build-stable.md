@@ -12,8 +12,6 @@ action if the [exit status][] code of a script is not zero. This makes
 it a perfect fit for automated checks making sure you're not shooting
 yourself in the foot.
 
-<!--more-->
-
 #### How Git hooks work
 
 Creating a hook is very simple: all you need to do is create a shell
