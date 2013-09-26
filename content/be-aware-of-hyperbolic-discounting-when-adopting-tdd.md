@@ -1,6 +1,6 @@
 Title: Resisting marshmallows is hard. Adopting TDD, too.
 Date: 2013-04-10 14:01
-Author: joseitz
+Author: Johannes Seitz
 Category: Psychology
 Slug: be-aware-of-hyperbolic-discounting-when-adopting-tdd
 

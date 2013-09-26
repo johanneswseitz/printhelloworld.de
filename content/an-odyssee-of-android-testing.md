@@ -1,6 +1,6 @@
 Title: An Odyssee of Android testing
 Date: 2012-05-01 23:07
-Author: joseitz
+Author: Johannes Seitz
 Slug: an-odyssee-of-android-testing
 
 A few days ago I started developing my first native Android App. Finally

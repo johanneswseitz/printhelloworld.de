@@ -1,6 +1,6 @@
 Title: Apologies and a clean slate
 Date: 2011-08-02 18:47
-Author: joseitz
+Author: Johannes Seitz
 Slug: renaissance-and-apologies
 
 I do apologize for not blogging more the last year or so. This post,

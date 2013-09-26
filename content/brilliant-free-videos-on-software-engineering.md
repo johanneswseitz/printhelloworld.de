@@ -1,6 +1,6 @@
 Title: Brilliant talks on Software Engineering 
 Date: 2012-03-12 20:07
-Author: joseitz
+Author: Johannes Seitz
 Category: Conference Videos
 Slug: brilliant-free-videos-on-software-engineering
 

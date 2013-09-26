@@ -15,13 +15,13 @@ FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
-STATIC_PATHS = ["images", ]
+STATIC_PATHS = ["images", "downloads",]
 
 # Blogroll
 LINKS =  (('Stefan Bechtold', 'http://www.bechte.de/'),
           ('Heiko Maaß', 'http://www.heikomaass.de/'),)
 
-THEME = "tuxlite_zf"
+THEME = "tuxlite_tbs"
 
 # Social widget
 SOCIAL = (('Twitter', 'https://twitter.com/ookami86'),)

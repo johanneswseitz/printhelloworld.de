@@ -1,6 +1,6 @@
 Title: Slides: Writing Testable Code [Updated]
 Date: 2011-08-26 19:42
-Author: joseitz
+Author: Johannes Seitz
 Category: Testing
 Tags: code, integration testing, java, ncamp, python, slides, talk, testability, testable code, testing, tests, unit testing
 Slug: slides-writing-testable-code
