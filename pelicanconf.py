@@ -28,5 +28,7 @@ SOCIAL = (('Twitter', 'https://twitter.com/ookami86'),)
 
 DEFAULT_PAGINATION = 0
 
+DEFAULT_CATEGORY = "Other"
+
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True

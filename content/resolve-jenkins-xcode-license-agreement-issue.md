@@ -1,7 +1,7 @@
 Title: Resolving the Jenkins Xcode License Agreement Issue
 Date: 2012-04-06 22:36
-Author: joseitz
-Category: Continuous Integration, Jenkins CI
+Author: Johannes Seitz
+Category: Continuous Integration iOS
 Slug: resolve-jenkins-xcode-license-agreement-issue
 
 When I set up a new Jenkins CI Server on OS X in order to build iOS

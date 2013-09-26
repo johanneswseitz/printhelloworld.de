@@ -1,13 +1,14 @@
 Title: Apologies and a clean slate
 Date: 2011-08-02 18:47
 Author: joseitz
-Category: About the Blog
 Slug: renaissance-and-apologies
 
 I do apologize for not blogging more the last year or so. This post,
 half apology and half promise, marks my comeback to blogging. Read on if
 you are interested in what I have been up to and what I plan for the
-future.<!--more-->h2. From grand aspirations to sudden realizations
+future.
+
+#### From grand aspirations to sudden realizations
 
 My Blog was online for a few years, before I decided to take the site
 down for a redesign. Why did I do such a thing, you might ask? Well, the
