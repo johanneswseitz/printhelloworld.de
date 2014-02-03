@@ -37,5 +37,8 @@ DEFAULT_CATEGORY = "Other"
 
 DISQUS_SITENAME = "printhelloworld"
 
+GOOGLE_ANALYTICS = "UA-47774011-1"
+
+
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
