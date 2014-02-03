@@ -24,11 +24,18 @@ LINKS =  (('Stefan Bechtold', 'http://www.bechte.de/'),
 THEME = "tuxlite_tbs"
 
 # Social widget
-SOCIAL = (('Twitter', 'https://twitter.com/ookami86'),)
+SOCIAL = (('Twitter', 'https://twitter.com/ookami86'),
+          ('Github', 'https://github.com/Ookami86/'),
+          ('StackOverflow', 'http://stackoverflow.com/users/641189/johannes'),
+          ("Xing", 'https://www.xing.com/profile/Johannes_Seitz2'),)
+
+TWITTER_USERNAME="Ookami86"
 
 DEFAULT_PAGINATION = 0
 
 DEFAULT_CATEGORY = "Other"
+
+DISQUS_SITENAME = "printhelloworld"
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
