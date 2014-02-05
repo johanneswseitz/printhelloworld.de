@@ -7,6 +7,7 @@ SITENAME = u'print("Hello, World!")'
 SITEURL = ''
 
 TIMEZONE = 'Europe/Paris'
+DATE_FORMATS = {'en': '%Y-%m-%d'}
 
 DEFAULT_LANG = u'en'
 
@@ -27,7 +28,7 @@ THEME = "tuxlite_tbs"
 SOCIAL = (('Twitter', 'https://twitter.com/ookami86'),
           ('Github', 'https://github.com/Ookami86/'),
           ('StackOverflow', 'http://stackoverflow.com/users/641189/johannes'),
-          ("Xing", 'https://www.xing.com/profile/Johannes_Seitz2'),)
+          ("Xing", 'https://xing.com/profile/Johannes_Seitz2'),)
 
 TWITTER_USERNAME="Ookami86"
 
