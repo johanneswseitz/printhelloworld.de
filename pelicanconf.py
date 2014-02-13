@@ -22,7 +22,7 @@ STATIC_PATHS = ["images", "downloads",]
 LINKS =  (('Stefan Bechtold', 'http://www.bechte.de/'),
           ('Heiko Maaß', 'http://www.heikomaass.de/'),)
 
-THEME = "tuxlite_tbs"
+THEME = "themes/tuxlite_tbs"
 
 # Social widget
 SOCIAL = (('Twitter', 'https://twitter.com/ookami86'),
