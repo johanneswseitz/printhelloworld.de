@@ -2,3 +2,4 @@
 .DS_Store
 output
 *.pid
+.idea/workspace.xml
