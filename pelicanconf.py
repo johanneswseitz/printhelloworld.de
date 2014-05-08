@@ -16,7 +16,8 @@ FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
-STATIC_PATHS = ["images", "downloads",]
+PATH = "content"
+#STATIC_PATHS = ["images", "downloads",]
 
 # Blogroll
 LINKS =  (('Stefan Bechtold', 'http://www.bechte.de/'),
@@ -30,9 +31,11 @@ SOCIAL = (('Twitter', 'https://twitter.com/ookami86'),
           ('StackOverflow', 'http://stackoverflow.com/users/641189/johannes'),
           ("Xing", 'https://xing.com/profile/Johannes_Seitz2'),)
 
+MENUITEMS = (('Hire me', 'http://www.craftware.de'),)
+
 TWITTER_USERNAME="Ookami86"
 
-DEFAULT_PAGINATION = 0
+DEFAULT_PAGINATION = False
 
 DEFAULT_CATEGORY = "Other"
 

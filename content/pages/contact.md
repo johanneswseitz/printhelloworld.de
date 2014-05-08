@@ -1,13 +1,13 @@
-Title: Contact
+Title: Contact / Imprint
 Slug: contact
 Author: Johannes Seitz
 Summary: Contact.
 
 Please feel free to leave a comment on any of the blog posts.
 
-If you think we should talk, feel free to either follow the social media links in the sidebar or send me an E-Mail to joha<a href="http://www.google.com/recaptcha/mailhide/d?k=01-rJFKxN7mUyZuhWZDIP6BA==&amp;c=jfV2YCrhraqTCE7lGF7qo2Ro-ohSk-Bfe06ykN2fzdw=" onclick="window.open('http://www.google.com/recaptcha/mailhide/d?k\07501-rJFKxN7mUyZuhWZDIP6BA\75\75\46c\75jfV2YCrhraqTCE7lGF7qo2Ro-ohSk-Bfe06ykN2fzdw\075', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;" title="Reveal this e-mail address">...</a>@gmail.com
+<img src="/images/Screen Shot 2014-05-08 at 22.40.01.png" />
 
-Please use the following PGP key to verify authentic mail sent by me and to encrypt communictaion if necessary.
+This is the PGP public key I use for signing mail. You may also use it to encrypt your message (recommended).
 
 <pre>
 -----BEGIN PGP PUBLIC KEY BLOCK-----

@@ -17,6 +17,7 @@
     <link href="{{ SITEURL }}/theme/bootstrap.min.responsive.css" rel="stylesheet">
     <link href="{{ SITEURL }}/theme/local.css" rel="stylesheet">
     <link href="{{ SITEURL }}/theme/pygments.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -60,6 +61,30 @@
         </div>
         
         <div class="span3">
+
+            <div class="well">
+                <img src="/images/johannes.jpeg"/>
+                <p>
+                Johannes is a Freelance Software Engineer working in Frankfurt am Main, Germany.<br/><br/>
+                His passion is developing high quality Mobile- and Web applications using lean and agile approaches.<br/>
+                </p>
+            </div>
+
+            {% if SOCIAL %}
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header">
+                Social
+                </li>
+
+                {% for name, link in SOCIAL %}
+                <li><a href="{{ link }}">{{ name }}</a></li>
+                {% endfor %}
+            </ul>
+            </div>
+            </div>
+            {% endif %}
 
             <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
             <ul class="nav nav-list">
@@ -107,21 +132,6 @@
             {% endif %}
 
 
-            {% if SOCIAL %}
-            <div class="social">
-            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
-            <ul class="nav nav-list">
-                <li class="nav-header"> 
-                Social
-                </li>
-           
-                {% for name, link in SOCIAL %}
-                <li><a href="{{ link }}">{{ name }}</a></li>
-                {% endfor %}
-            </ul>
-            </div>
-            </div>
-            {% endif %}
 
         </div> {# End span3 #} 
     </div> {# End row #}
