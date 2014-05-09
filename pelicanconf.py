@@ -31,7 +31,7 @@ SOCIAL = (("Xing", 'https://xing.com/profile/Johannes_Seitz2'),
           ('Github', 'https://github.com/Ookami86/'),
           ('StackOverflow', 'http://stackoverflow.com/users/641189/johannes'),)
 
-MENUITEMS = (('Blog', SITEURL),
+MENUITEMS = (('Blog', "/"),
              ('Freelance website', 'http://www.craftware.de'),)
 
 TWITTER_USERNAME="Ookami86"
