@@ -20,18 +20,19 @@ PATH = "content"
 #STATIC_PATHS = ["images", "downloads",]
 
 # Blogroll
-LINKS =  (('Stefan Bechtold', 'http://www.bechte.de/'),
+LINKS = (('Stefan Bechtold', 'http://www.bechte.de/'),
           ('Heiko Maaß', 'http://www.heikomaass.de/'),)
 
 THEME = "themes/tuxlite_tbs"
 
 # Social widget
-SOCIAL = (('Twitter', 'https://twitter.com/ookami86'),
+SOCIAL = (("Xing", 'https://xing.com/profile/Johannes_Seitz2'),
+          ('Twitter', 'https://twitter.com/ookami86'),
           ('Github', 'https://github.com/Ookami86/'),
-          ('StackOverflow', 'http://stackoverflow.com/users/641189/johannes'),
-          ("Xing", 'https://xing.com/profile/Johannes_Seitz2'),)
+          ('StackOverflow', 'http://stackoverflow.com/users/641189/johannes'),)
 
-MENUITEMS = (('Hire me', 'http://www.craftware.de'),)
+MENUITEMS = (('Blog', SITEURL),
+             ('Freelance website', 'http://www.craftware.de'),)
 
 TWITTER_USERNAME="Ookami86"
 
