@@ -13,6 +13,9 @@ from pelicanconf import *
 SITEURL = 'http://www.printhelloworld.de'
 RELATIVE_URLS = False
 
+MENUITEMS = (('Blog', SITEURL),
+             ('Freelance website', 'http://www.craftware.de'),)
+
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
 CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
 

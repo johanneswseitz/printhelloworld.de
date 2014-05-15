@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = u'Johannes Seitz'
 SITENAME = u'print("Hello, World!")'
-SITEURL = ''
+SITEURL = 'http://localhost:8000'
 
 TIMEZONE = 'Europe/Paris'
 DATE_FORMATS = {'en': '%Y-%m-%d'}
@@ -31,7 +31,7 @@ SOCIAL = (("Xing", 'https://xing.com/profile/Johannes_Seitz2'),
           ('Github', 'https://github.com/Ookami86/'),
           ('StackOverflow', 'http://stackoverflow.com/users/641189/johannes'),)
 
-MENUITEMS = (('Blog', "/"),
+MENUITEMS = (('Blog', SITEURL),
              ('Freelance website', 'http://www.craftware.de'),)
 
 TWITTER_USERNAME="Ookami86"
