@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>print("Hello, World!")</title><link href="http://www.printhelloworld.de/" rel="alternate"></link><link href="http://www.printhelloworld.de/feeds/testing.atom.xml" rel="self"></link><id>http://www.printhelloworld.de/</id><updated>2013-08-13T12:46:00+02:00</updated><entry><title>Using Git hooks to keep your build stable</title><link href="http://www.printhelloworld.de/using-git-hooks-to-keep-your-build-stable.html" rel="alternate"></link><updated>2013-08-13T12:46:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2013-08-13:using-git-hooks-to-keep-your-build-stable.html</id><summary type="html">&lt;p&gt;A little known fact is that Git supports client-side hooks to execute a
+command line script before certain commands such as &lt;code&gt;commit&lt;/code&gt; or &lt;code&gt;push&lt;/code&gt;.
+This feature can be used to perform additional quality checks on your
+codebase. What's way cool about it is that Git will actually cancel the
+action if the &lt;a href="http://en.wikipedia.org/wiki/Exit_status"&gt;exit status&lt;/a&gt; code of a script is not zero. This makes
+it a perfect fit for automated checks making sure you're not shooting
+yourself in the foot.&lt;/p&gt;
+&lt;h4&gt;How Git hooks work&lt;/h4&gt;
+&lt;p&gt;Creating a hook is very simple: all you need to do is create a shell
+script in the &lt;code&gt;.git/hooks/&lt;/code&gt; directory of an existing Git repository. You
+will find several sample hooks in this directory already. All of these
+end with &lt;code&gt;.sample&lt;/code&gt;, rendering them inactive. If you create your own,
+make sure this script file you create starts with a &lt;a href="http://de.wikipedia.org/wiki/Shebang"&gt;shebang&lt;/a&gt; and is
+executable.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Git hooks in the shell" src="http://www.printhelloworld.de/images/git-hooks.png" /&gt;&lt;/p&gt;
+&lt;h4&gt;Make hooks test your every commit&lt;/h4&gt;
+&lt;p&gt;I have commit hook perform a full compile and test of my code on every
+commit. Not only does this make sure that everything I commit is stable
+and working, it also makes cherry-picking commits so much easier and
+less risky. Sure it may take some time for the compile and test to run,
+but the time you save, hunting down that issue you just inadvertently
+pushed to the master branch is closer to zero.&lt;/p&gt;
+&lt;h4&gt;Make your TODO comments nag&lt;/h4&gt;
+&lt;p&gt;I dislike the idea of TODO comments. They are usually markers of a
+&lt;a href="http://en.wikipedia.org/wiki/Broken_windows_theory"&gt;broken window&lt;/a&gt; but what's worse is that they tend to invisibly rot
+and accumulate. Here's my pre-push hook to keep these broken windows and
+untracked tasks in mind:&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;#!/usr/bin/env ruby&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;colorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color_code&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;color_code&lt;/span&gt;&lt;span class="si"&gt;}#{&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="se"&gt;\033&lt;/span&gt;&lt;span class="s2"&gt;[0m&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;red&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="n"&gt;colorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\033&lt;/span&gt;&lt;span class="s2"&gt;[31m&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;green&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="n"&gt;colorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\033&lt;/span&gt;&lt;span class="s2"&gt;[32m&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;command?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nb"&gt;system&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;which &lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt; &lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; &amp;gt; /dev/null 2&amp;gt;&amp;amp;1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;tasks&lt;/span&gt;
+  &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;green&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;gt; Checking TODOs...&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+  &lt;span class="n"&gt;todo_files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sb"&gt;`find . -not -path &amp;quot;./out/*&amp;quot; -not -path &amp;quot;./play*/*&amp;quot;&lt;/span&gt;
+&lt;span class="sb"&gt;                -name &amp;quot;*.scala&amp;quot; -exec grep -q &amp;quot;TODO&amp;quot; {} &lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="sb"&gt;; -print`&lt;/span&gt;
+
+  &lt;span class="k"&gt;unless&lt;/span&gt; &lt;span class="n"&gt;todo_files&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;empty?&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;red&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;gt; Please fix the following TODOs fist:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;todo_files&lt;/span&gt;
+    &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;green&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;gt; All OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;tasks&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;h4&gt;Share hooks&lt;/h4&gt;
+&lt;p&gt;The way Git hooks work, they are not pushed to the remote repository and
+thus not shared with your teammates. A simple solution for this issue is
+to keep the hooks in the Git repository themselves and have a script
+that symlinks them into the local &lt;code&gt;.git&lt;/code&gt; directory. You will still need
+to execute this script once on every machine, but your git hooks will be
+shared, versioned and in-sync.&lt;/p&gt;
+&lt;p&gt;Here's my symlink script:&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;#!/usr/bin/env ruby&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;symlink&lt;/span&gt;
+  &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pre-commit&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;pre-push&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;each&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="sb"&gt;`ln -s -f ../../git-hooks/&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt; ../.git/hooks/&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+  &lt;span class="sb"&gt;`chmod +x ../.git/hooks/&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;symlink&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;h4&gt;Conclusion&lt;/h4&gt;
+&lt;p&gt;In my experience the usage of git hooks for quality assurance to a
+certain extend reduces the number of broken builds and broken windows.
+It is certainly not a silver bullet, but still worthwhile.&lt;/p&gt;
+&lt;p&gt;Feel free to add your own ideas and/or suggestions on how to use Git
+hooks for quality assurance to the comment section!&lt;/p&gt;</summary></entry><entry><title>Slides: Writing Testable Code [Updated]</title><link href="http://www.printhelloworld.de/slides-writing-testable-code.html" rel="alternate"></link><updated>2011-08-26T19:42:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2011-08-26:slides-writing-testable-code.html</id><summary type="html">&lt;p&gt;I recently prepared a presentation entitled "Painless Testing - Writing testable
+code" for work and I would like to share it with you. There is a &lt;a href="http://downloads.printhelloworld.de/testing-slides/?lang=python#1"&gt;Python
+Version&lt;/a&gt; of and a &lt;a href="http://downloads.printhelloworld.de/testing-slides/#1"&gt;Java Version&lt;/a&gt; the slides available.&lt;/p&gt;
+&lt;p&gt;These slides will require an HTML5 capable browser such as any recent
+Mozilla Firefox, Google Chrome or Safari version. Press the right/left
+keys on your keyboard or click somewhere near the right or left edge of
+your browser window to switch slides.&lt;/p&gt;
+&lt;p&gt;The talk is based on &lt;a href="http://misko.hevery.com/code-reviewers-guide/"&gt;this amazing guide&lt;/a&gt; by Miško Hevery (Google) and
+others.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; This is the 2nd complete revision of my talk, published on
+March 7th 2012, for my talk at the Java User Group Göttingen.&lt;/p&gt;</summary><category term="code"></category><category term="integration testing"></category><category term="java"></category><category term="ncamp"></category><category term="python"></category><category term="slides"></category><category term="talk"></category><category term="testability"></category><category term="testable code"></category><category term="testing"></category><category term="tests"></category><category term="unit testing"></category></entry></feed>

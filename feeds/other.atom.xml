@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>print("Hello, World!")</title><link href="http://www.printhelloworld.de/" rel="alternate"></link><link href="http://www.printhelloworld.de/feeds/other.atom.xml" rel="self"></link><id>http://www.printhelloworld.de/</id><updated>2012-05-01T23:07:00+02:00</updated><entry><title>An Odyssee of Android testing</title><link href="http://www.printhelloworld.de/an-odyssee-of-android-testing.html" rel="alternate"></link><updated>2012-05-01T23:07:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2012-05-01:an-odyssee-of-android-testing.html</id><summary type="html">&lt;p&gt;A few days ago I started developing my first native Android App. Finally
+a green field project! Finally, an opportunity, to do things right!
+Finally, a project I could develop in a Test-Driven fashion without the
+weight of any legacy cruft slowing me down! Or so I thought...&lt;/p&gt;
+&lt;p&gt;With a lot of enthusiasm I bootstrapped a new Maven Project and sure
+enough there was an Archetype with something called "Instrumentation
+Tests" included. At that point I had no idea what an "Instrumentation
+Test" might be, but I thought, if it's got the word Test in it, it can't
+hurt, right?&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Maven archetypes screenshot" src="http://www.printhelloworld.de/images/maven-archetypes.png" /&gt;&lt;/p&gt;
+&lt;p&gt;When I checked the pom.xml file, I noticed there was no JUnit dependency
+and also the archetype did not generate the usual "src/test" directory
+sibling of "src/main". Well, nothing I can't fix. So I threw in my usual
+test dependencies and started out writing tests in "src/main", ignoring
+the instrumentation project Maven created for now. In retrospect I
+should have seen the signs on the wall...&lt;/p&gt;
+&lt;h4&gt;Shadowy depencencies&lt;/h4&gt;
+&lt;p&gt;I wrote a first test to check the "title" property of my main activity.
+Nothing too fancy. I hit the run key. And sure enough, my JUnit bar
+turned red. But wait a minute... What kind of strange test failure is
+that?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;!!!&lt;/span&gt; &lt;span class="nx"&gt;JUnit&lt;/span&gt; &lt;span class="nb"&gt;version&lt;/span&gt; &lt;span class="mf"&gt;3.8&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="nx"&gt;later&lt;/span&gt; &lt;span class="nx"&gt;expected&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+
+&lt;span class="nx"&gt;java.lang.RuntimeException&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;Stub&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;  
+&lt;span class="nx"&gt;at&lt;/span&gt; &lt;span class="nx"&gt;junit.runner.BaseTestRunner.&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;init&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;BaseTestRunner.java&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nx"&gt;at&lt;/span&gt; &lt;span class="nx"&gt;junit.textui.TestRunner.&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;init&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;TestRunner.java&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;54&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nx"&gt;at&lt;/span&gt; &lt;span class="nx"&gt;junit.textui.TestRunner.&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;init&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;TestRunner.java&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;48&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nx"&gt;at&lt;/span&gt; &lt;span class="nx"&gt;junit.textui.TestRunner.&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;init&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;TestRunner.java&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;41&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nx"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="Junit Version failure screenshot" src="http://www.printhelloworld.de/images/junit-version-failure.png" /&gt;&lt;/p&gt;
+&lt;p&gt;As it turns out, Google includes their own version of JUnit 3 with the
+Android SDK. So no JUnit 4 for me! Too bad. Later I figured out you can
+work your way around this issue by moving the JUnit 4 dependency before
+the Android dependency in your IDEs Classpath configuration. If you are
+developing in IntellJ IDEA you can do so in the "Project Structure"
+dialog, as shown on the right. And don't forget to move your JUnit
+depdency above the Android depdencies in your pom.xml file as well,
+otherwise your CI and console build will run into similar trouble.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="IntelliJ Dependency order screenshot" src="http://www.printhelloworld.de/images/intellij-dependency-order.png" /&gt;&lt;/p&gt;
+&lt;h4&gt;Vicious Relatives&lt;/h4&gt;
+&lt;p&gt;At first it didn't seem like the dependency order trick worked for me,
+until I took a better look and noticed the error message had changed
+slightly. No I was faced with a different error. It read:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RuntimeException&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Stub&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;     
+  &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;android&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Context&lt;/span&gt;&lt;span class="p"&gt;.(&lt;/span&gt;&lt;span class="n"&gt;Context&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;     
+  &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;android&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ContextWrapper&lt;/span&gt;&lt;span class="p"&gt;.(&lt;/span&gt;&lt;span class="n"&gt;ContextWrapper&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;     
+  &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;android&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;view&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ContextThemeWrapper&lt;/span&gt;&lt;span class="p"&gt;.(&lt;/span&gt;&lt;span class="n"&gt;ContextThemeWrapper&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;     
+  &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;android&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Activity&lt;/span&gt;&lt;span class="p"&gt;.(&lt;/span&gt;&lt;span class="n"&gt;Activity&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;After some debugging, decompilation and googling I found that Android
+classes my objects need to implement, like the 'android.app.Activity'
+class are rigged to throw this exception. WTF? For some reason Google
+decided to not to include the "real" implementations of (some?) API
+classes in the SDK and replaced them with mere Placeholders. Vicious
+placeholders with constructors rigged to throw devious exceptions. These
+classes are amongst truly the most vicious, test-averse framework code I
+have seen so far.&lt;/p&gt;
+&lt;h4&gt;My way or the Google way&lt;/h4&gt;
+&lt;p&gt;At this point I was faced with a choice: give in to Google and try their
+official way of testing they call "Instrumentation testing" or start
+mocking out the whole Google API enchilada. I decided to try the Google
+way of Android testing first. I read through &lt;a href="http://developer.android.com/guide/topics/testing/testing_android.html"&gt;the awful android testing
+documentation&lt;/a&gt; (Please! Documentation writers: less bla bla, more
+working code samples!). At some point I had it figured out. I derived my
+Test class from the &lt;a href="http://developer.android.com/reference/android/test/ActivityInstrumentationTestCase2.html"&gt;ActivityInstrumentationTestCase2&lt;/a&gt; class, rewired
+some methods and hit the run button. Good thing I generated the project
+to include the test subproject from the start!&lt;/p&gt;
+&lt;p&gt;This time the test would not run in my IDE window because apparently the
+version of JUnit Google includes with the Android SDK is incompatible
+with my IDE. I tried the Maven test target on the IT project but my
+console told me that none of the tests ran. I found that I had to run
+the Maven "install" lifecycle goal in order for the tests to run. That
+doesn't make any sense... but fair enough. Here goes:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="No devices attached error screenshot" src="http://www.printhelloworld.de/images/no-devices-attached-error.png" /&gt;&lt;/p&gt;
+&lt;p&gt;No devices Attached? Oh right, it's an integration test target. It needs
+a device to run. Big bummer.&lt;/p&gt;
+&lt;p&gt;I attached a test device and the whole process of installing the app on
+the device and running the tests finally worked. It took pretty long
+though - between 40 sec. and 1 minute. And what's even worse - my
+mocking libraries (Mockito, EasyMock) turned out to be incompatible with
+the Dalvic VM. And what's worse: I don't want to have an Android Device
+plugged into my CI Server all the time just to run my tests... or have
+the horribly slow Android Emulator starting and shutting down all the
+time. So... while the Google way might be okay for UI- or real
+integration testing it is unsuitable to the rapid iteration that is TDD.
+I need my tests to be fast as hell. And also, I don't want to work
+without a Mocking library.&lt;/p&gt;
+&lt;h4&gt;Salvation&lt;/h4&gt;
+&lt;p&gt;So, at this point I was frustrated enough to consider just mocking the
+whole Google framework. Every. Single. Class. But hark! There is hope,
+yet! After a few hours of googling for alternatives and workaround I
+found a promising project on Github called &lt;a href="http://pivotal.github.com/robolectric/"&gt;Robolectric&lt;/a&gt;. What these
+guys managed is nothing short of genius. They simply shadow the Google
+API dependencies in your project.&lt;/p&gt;
+&lt;p&gt;That's it. It's so easy, it's so simple! All of the hostile 'Stub!'
+exceptions: gone! Almost too good to be true. And it works! It actually
+works! All you really need to do, is add this one Maven dependency to
+your project:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.pivotallabs&lt;span class="nt"&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;robolectric&lt;span class="nt"&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;version&amp;gt;&lt;/span&gt;X.X.X&lt;span class="nt"&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;scope&amp;gt;&lt;/span&gt;test&lt;span class="nt"&gt;&amp;lt;/scope&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;... configure your JUnit 4 Tests to use the RobolectricTestRunner and
+that's it!&lt;/p&gt;
+&lt;p&gt;&lt;img alt="No devices attached error screenshot" src="http://www.printhelloworld.de/images/robolectric-man.png" /&gt;&lt;/p&gt;
+&lt;h4&gt;Epilogue&lt;/h4&gt;
+&lt;p&gt;I probably could have hidden most of my code behind a boundary. As a
+matter of fact that's what I do for "business logic" - the real
+"brainpower" of the app. But there are still valid test cases that
+require me to access decedents of the Android SDK classes. For now I am
+happy to work with Robolectric, in order to test such cases in a fast
+and easy manner on my development machine, with no devices attached or
+emulators running.&lt;/p&gt;
+&lt;p&gt;What shocked me is that Google, a company known for their dedication to
+technical excellence would come up with a framework that is so hostile
+towards such an important practice as TDD. Coming from iOS and the
+pretty testable Cocoa Touch Framework I expected the Android Testing to
+be on par with the Java platform (far ahead of the Apple world). Imagine
+the shock I felt, when I noticed just how wrong I was. As agile methods
+and practices seem to take over the industry, vendors should pay more
+attention to properties that are essential to rapid development and
+frequent delivery - such as simple and fast automated testing.&lt;/p&gt;</summary></entry><entry><title>Apologies and a clean slate</title><link href="http://www.printhelloworld.de/renaissance-and-apologies.html" rel="alternate"></link><updated>2011-08-02T18:47:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2011-08-02:renaissance-and-apologies.html</id><summary type="html">&lt;p&gt;I do apologize for not blogging more the last year or so. This post,
+half apology and half promise, marks my comeback to blogging. Read on if
+you are interested in what I have been up to and what I plan for the
+future.&lt;/p&gt;
+&lt;h4&gt;From grand aspirations to sudden realizations&lt;/h4&gt;
+&lt;p&gt;My Blog was online for a few years, before I decided to take the site
+down for a redesign. Why did I do such a thing, you might ask? Well, the
+answer is twofold... I wanted a big relaunch of my site to accompany my
+entrance into the world of the (somewhat) professional App developer,
+selling Apps on the App Stores of this planet.&lt;/p&gt;
+&lt;p&gt;In unrelated matters, I really wanted to do some project with Django, a
+Python Web Framework I recently learned to love. So I tried to migrate
+my Blog to a Django application for quite a few months.&lt;/p&gt;
+&lt;p&gt;So why did I finally give up and move the Blog back to Wordpress? First
+of all, I found that I couldn't quite settle on a Design. I tried
+several times to come up with a design for the site, but and none of
+them really met the level of quality I expected and I just kept fiddling
+with it until I couldn't see it any more (being a Techie and no
+Designer, I am not ashamed to admit defeat on this matter).&lt;/p&gt;
+&lt;p&gt;The other thing I realized is that I have just too much going on in my
+life right now. I could either keep attempting to half-heartedly put
+something great together, or focus my energies on a fraction of
+activities and accomplish those really well.&lt;/p&gt;
+&lt;p&gt;Long story short: I will discontinue most of the software Projects I
+pursued and focus on a fraction I can maintain.&lt;/p&gt;</summary></entry></feed>

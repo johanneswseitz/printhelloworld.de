@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>print("Hello, World!")</title><link href="http://www.printhelloworld.de/" rel="alternate"></link><link href="http://www.printhelloworld.de/feeds/all.atom.xml" rel="self"></link><id>http://www.printhelloworld.de/</id><updated>2013-12-26T19:42:00+01:00</updated><entry><title>Slides: Event Sourcing</title><link href="http://www.printhelloworld.de/slides-event-sourcing-in-practice.html" rel="alternate"></link><updated>2013-12-26T19:42:00+01:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2013-12-26:slides-event-sourcing-in-practice.html</id><summary type="html">&lt;p&gt;I recently had the opportunity to present a talk on &lt;a href="http://www.martinfowler.com/eaaDev/EventSourcing.html"&gt;Event Sourcing&lt;/a&gt; at Java User Group in Frankfurt. &lt;/p&gt;
+&lt;p&gt;My slide deck is &lt;a href="https://github.com/Ookami86/event-sourcing-in-practice"&gt;available on Github&lt;/a&gt;, and I would very much appreciate your feedback and/or pull requests.&lt;/p&gt;
+&lt;p&gt;In case your are interested, I will be giving this talk again in Feburary next year together with Benjamin Reitzammer, at the &lt;a href="http://www.entwicklertag.de/frankfurt/2014/session/event-sourcing-der-praxis"&gt;Entwicklertag Frankfurt&lt;/a&gt;&lt;/p&gt;</summary><category term="ddd"></category><category term="object-relational mismatch"></category><category term="event sourcing"></category><category term="persistence"></category><category term="architecture"></category><category term="pattern"></category></entry><entry><title>Using Git hooks to keep your build stable</title><link href="http://www.printhelloworld.de/using-git-hooks-to-keep-your-build-stable.html" rel="alternate"></link><updated>2013-08-13T12:46:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2013-08-13:using-git-hooks-to-keep-your-build-stable.html</id><summary type="html">&lt;p&gt;A little known fact is that Git supports client-side hooks to execute a
+command line script before certain commands such as &lt;code&gt;commit&lt;/code&gt; or &lt;code&gt;push&lt;/code&gt;.
+This feature can be used to perform additional quality checks on your
+codebase. What's way cool about it is that Git will actually cancel the
+action if the &lt;a href="http://en.wikipedia.org/wiki/Exit_status"&gt;exit status&lt;/a&gt; code of a script is not zero. This makes
+it a perfect fit for automated checks making sure you're not shooting
+yourself in the foot.&lt;/p&gt;
+&lt;h4&gt;How Git hooks work&lt;/h4&gt;
+&lt;p&gt;Creating a hook is very simple: all you need to do is create a shell
+script in the &lt;code&gt;.git/hooks/&lt;/code&gt; directory of an existing Git repository. You
+will find several sample hooks in this directory already. All of these
+end with &lt;code&gt;.sample&lt;/code&gt;, rendering them inactive. If you create your own,
+make sure this script file you create starts with a &lt;a href="http://de.wikipedia.org/wiki/Shebang"&gt;shebang&lt;/a&gt; and is
+executable.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Git hooks in the shell" src="http://www.printhelloworld.de/images/git-hooks.png" /&gt;&lt;/p&gt;
+&lt;h4&gt;Make hooks test your every commit&lt;/h4&gt;
+&lt;p&gt;I have commit hook perform a full compile and test of my code on every
+commit. Not only does this make sure that everything I commit is stable
+and working, it also makes cherry-picking commits so much easier and
+less risky. Sure it may take some time for the compile and test to run,
+but the time you save, hunting down that issue you just inadvertently
+pushed to the master branch is closer to zero.&lt;/p&gt;
+&lt;h4&gt;Make your TODO comments nag&lt;/h4&gt;
+&lt;p&gt;I dislike the idea of TODO comments. They are usually markers of a
+&lt;a href="http://en.wikipedia.org/wiki/Broken_windows_theory"&gt;broken window&lt;/a&gt; but what's worse is that they tend to invisibly rot
+and accumulate. Here's my pre-push hook to keep these broken windows and
+untracked tasks in mind:&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;#!/usr/bin/env ruby&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;colorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color_code&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;color_code&lt;/span&gt;&lt;span class="si"&gt;}#{&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="se"&gt;\033&lt;/span&gt;&lt;span class="s2"&gt;[0m&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;red&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="n"&gt;colorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\033&lt;/span&gt;&lt;span class="s2"&gt;[31m&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;green&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="n"&gt;colorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\033&lt;/span&gt;&lt;span class="s2"&gt;[32m&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;command?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nb"&gt;system&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;which &lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt; &lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; &amp;gt; /dev/null 2&amp;gt;&amp;amp;1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;tasks&lt;/span&gt;
+  &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;green&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;gt; Checking TODOs...&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+  &lt;span class="n"&gt;todo_files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sb"&gt;`find . -not -path &amp;quot;./out/*&amp;quot; -not -path &amp;quot;./play*/*&amp;quot;&lt;/span&gt;
+&lt;span class="sb"&gt;                -name &amp;quot;*.scala&amp;quot; -exec grep -q &amp;quot;TODO&amp;quot; {} &lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="sb"&gt;; -print`&lt;/span&gt;
+
+  &lt;span class="k"&gt;unless&lt;/span&gt; &lt;span class="n"&gt;todo_files&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;empty?&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;red&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;gt; Please fix the following TODOs fist:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;todo_files&lt;/span&gt;
+    &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;green&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;gt; All OK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;tasks&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;h4&gt;Share hooks&lt;/h4&gt;
+&lt;p&gt;The way Git hooks work, they are not pushed to the remote repository and
+thus not shared with your teammates. A simple solution for this issue is
+to keep the hooks in the Git repository themselves and have a script
+that symlinks them into the local &lt;code&gt;.git&lt;/code&gt; directory. You will still need
+to execute this script once on every machine, but your git hooks will be
+shared, versioned and in-sync.&lt;/p&gt;
+&lt;p&gt;Here's my symlink script:&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;#!/usr/bin/env ruby&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;symlink&lt;/span&gt;
+  &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pre-commit&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;pre-push&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;each&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="sb"&gt;`ln -s -f ../../git-hooks/&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt; ../.git/hooks/&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+  &lt;span class="sb"&gt;`chmod +x ../.git/hooks/&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;symlink&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;h4&gt;Conclusion&lt;/h4&gt;
+&lt;p&gt;In my experience the usage of git hooks for quality assurance to a
+certain extend reduces the number of broken builds and broken windows.
+It is certainly not a silver bullet, but still worthwhile.&lt;/p&gt;
+&lt;p&gt;Feel free to add your own ideas and/or suggestions on how to use Git
+hooks for quality assurance to the comment section!&lt;/p&gt;</summary></entry><entry><title>Resisting marshmallows is hard. Adopting TDD, too.</title><link href="http://www.printhelloworld.de/be-aware-of-hyperbolic-discounting-when-adopting-tdd.html" rel="alternate"></link><updated>2013-04-10T14:01:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2013-04-10:be-aware-of-hyperbolic-discounting-when-adopting-tdd.html</id><summary type="html">&lt;p&gt;We are not as rational as we think we are. Or as Dan Ariley might put
+it: &lt;a href="http://www.youtube.com/watch?v=JhjUJTw2i1M"&gt;We're All Predictably Irrational&lt;/a&gt;. The other day I read "Die
+Kunst des klaren Denkens" (lit: The art of clear thinking) by Swiss
+author Rolf Dobelli. One of the common logical fallacies Dobelli  &lt;br /&gt;
+describes in this book is the fallacy of &lt;a href="http://en.wikipedia.org/wiki/Hyperbolic_discounting"&gt;Hyperbolic Discounting&lt;/a&gt; -
+the inclination to value immediate rewards over over delayed rewards. It
+seems to me, this human predisposition like no other lies at the heart
+of many mistakes in software development, including failed attempts
+adopting Test-Driven Development (TDD).&lt;/p&gt;
+&lt;p&gt;But first, let's look at the research on Hyperbolic Discounting. The
+inclination to favor immediate rewards over long-term rewards is also
+observed in animals and is likely to be a remainder of our animalistic
+past. Animals, for the most part, do not show the ability to postpone
+gratification. One particularly famous example, illustrating our human
+struggle to deal with delayed gratification is the &lt;a href="http://en.wikipedia.org/wiki/Marshmallow_experiment"&gt;Stanford Marshmallow
+experiment&lt;/a&gt;. In this experiment children were offered a small,
+immediate reward (e.G. a single marshmallow) or a bigger, delayed reward
+(e.G. two marshmallows in 15 Min). &lt;!--more--&gt; The rational thing to do,
+would be to wait a bit. Needless to say it took the kids a lot of effort
+to resist immediate gratification:&lt;/p&gt;
+&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/QX_oy9614HQ" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;What's interesting is that these experiments not only illustrate our
+difficulty resisting immediate gratification, but also found that
+children with the ability to wait longer for the preferred rewards
+tended to have better life outcomes, as measured by SAT scores,
+educational attainment, body mass index (BMI) and other life measures.
+Every developer reading this will probably remember a case where he/she
+tried to solve an issue the simple, elegant way, eventually resorting to
+some kind of hack due to unforeseen issues or perceived time pressure.
+Being "done" early and especially being "done" on time is gratifying to
+us.&lt;/p&gt;
+&lt;p&gt;How do these observations relate to the adoption of Test-Driven
+Development? Test-Driven development has been shown to reduce the amount
+of defects in software by researchers at &lt;a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.129.7992"&gt;IBM&lt;/a&gt; and &lt;a href="http://research.microsoft.com/en-us/groups/ese/nagappan_tdd.pdf"&gt;Microsoft&lt;/a&gt;. TDD
+has also been shown to point out flawed design- and architectural
+aspects of software, as pointed out in the talk "&lt;a href="http://vimeo.com/15007792"&gt;The Deep Synergy
+Between Testability and Good Design&lt;/a&gt;" by Michael Feathers. In my
+experience however, the biggest payoff for the Test-Driven approach is
+the ability to rapidly fix mistakes you make later on. The significant
+test coverage obtained by test-driving code acts as a safety net -
+catching most of the mistakes you will inevitably make along the way,
+cleaning and refactoring your code. It is the only professional way I
+know, to confidently keep large code basis from rotting. This fact has
+been stressed by Uncle Bob over and over and over again.&lt;/p&gt;
+&lt;p&gt;And yet it seems to me that software developers rarely embrace
+Test-Driven Development. Why is that? I suppose it is not only because
+of the steep learning curve. My former colleague &lt;a href="http://www.zustandsforschung.de/index.php/tdd-ist-ganz-schoen-schwer/"&gt;Benedikt Eger blogged
+about that (in German)&lt;/a&gt;. From an emotional point of view Test-Driven
+Development is a developer's nightmare. It will make you feel bad. It
+will challenge you to think about the problem and how to test it, before
+even writing the first, gratifying line of ("real", productive) code. It
+will point out the flaws in your design and make testing hard every time
+you get it wrong. And last but not least, you will feel like you could
+be so much faster, if only you wouldn't have to write these stupid
+tests. And all that for the delayed gratification of being able to
+confidently alter code a few months or years from now.&lt;/p&gt;
+&lt;p&gt;Needless to say, I think you should resist the temptation of immediate
+gratification. Instead, try at least to do the right thing and start
+with a test. You might not immediately be able to test-drive 100% of the
+code you write, but as time progresses you will improve and find ways to
+test these spots you missed earlier. Be aware of the Hyperbolic
+Discounting fallacy and practice self-control. Your patience and
+discipline will be rewarded tenfold, eventually. It is the rational
+thing to do.&lt;/p&gt;</summary></entry><entry><title>An Odyssee of Android testing</title><link href="http://www.printhelloworld.de/an-odyssee-of-android-testing.html" rel="alternate"></link><updated>2012-05-01T23:07:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2012-05-01:an-odyssee-of-android-testing.html</id><summary type="html">&lt;p&gt;A few days ago I started developing my first native Android App. Finally
+a green field project! Finally, an opportunity, to do things right!
+Finally, a project I could develop in a Test-Driven fashion without the
+weight of any legacy cruft slowing me down! Or so I thought...&lt;/p&gt;
+&lt;p&gt;With a lot of enthusiasm I bootstrapped a new Maven Project and sure
+enough there was an Archetype with something called "Instrumentation
+Tests" included. At that point I had no idea what an "Instrumentation
+Test" might be, but I thought, if it's got the word Test in it, it can't
+hurt, right?&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Maven archetypes screenshot" src="http://www.printhelloworld.de/images/maven-archetypes.png" /&gt;&lt;/p&gt;
+&lt;p&gt;When I checked the pom.xml file, I noticed there was no JUnit dependency
+and also the archetype did not generate the usual "src/test" directory
+sibling of "src/main". Well, nothing I can't fix. So I threw in my usual
+test dependencies and started out writing tests in "src/main", ignoring
+the instrumentation project Maven created for now. In retrospect I
+should have seen the signs on the wall...&lt;/p&gt;
+&lt;h4&gt;Shadowy depencencies&lt;/h4&gt;
+&lt;p&gt;I wrote a first test to check the "title" property of my main activity.
+Nothing too fancy. I hit the run key. And sure enough, my JUnit bar
+turned red. But wait a minute... What kind of strange test failure is
+that?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;!!!&lt;/span&gt; &lt;span class="nx"&gt;JUnit&lt;/span&gt; &lt;span class="nb"&gt;version&lt;/span&gt; &lt;span class="mf"&gt;3.8&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="nx"&gt;later&lt;/span&gt; &lt;span class="nx"&gt;expected&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+
+&lt;span class="nx"&gt;java.lang.RuntimeException&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;Stub&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;  
+&lt;span class="nx"&gt;at&lt;/span&gt; &lt;span class="nx"&gt;junit.runner.BaseTestRunner.&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;init&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;BaseTestRunner.java&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nx"&gt;at&lt;/span&gt; &lt;span class="nx"&gt;junit.textui.TestRunner.&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;init&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;TestRunner.java&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;54&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nx"&gt;at&lt;/span&gt; &lt;span class="nx"&gt;junit.textui.TestRunner.&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;init&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;TestRunner.java&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;48&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nx"&gt;at&lt;/span&gt; &lt;span class="nx"&gt;junit.textui.TestRunner.&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;init&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;TestRunner.java&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;41&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nx"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="Junit Version failure screenshot" src="http://www.printhelloworld.de/images/junit-version-failure.png" /&gt;&lt;/p&gt;
+&lt;p&gt;As it turns out, Google includes their own version of JUnit 3 with the
+Android SDK. So no JUnit 4 for me! Too bad. Later I figured out you can
+work your way around this issue by moving the JUnit 4 dependency before
+the Android dependency in your IDEs Classpath configuration. If you are
+developing in IntellJ IDEA you can do so in the "Project Structure"
+dialog, as shown on the right. And don't forget to move your JUnit
+depdency above the Android depdencies in your pom.xml file as well,
+otherwise your CI and console build will run into similar trouble.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="IntelliJ Dependency order screenshot" src="http://www.printhelloworld.de/images/intellij-dependency-order.png" /&gt;&lt;/p&gt;
+&lt;h4&gt;Vicious Relatives&lt;/h4&gt;
+&lt;p&gt;At first it didn't seem like the dependency order trick worked for me,
+until I took a better look and noticed the error message had changed
+slightly. No I was faced with a different error. It read:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RuntimeException&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Stub&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;     
+  &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;android&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Context&lt;/span&gt;&lt;span class="p"&gt;.(&lt;/span&gt;&lt;span class="n"&gt;Context&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;     
+  &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;android&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ContextWrapper&lt;/span&gt;&lt;span class="p"&gt;.(&lt;/span&gt;&lt;span class="n"&gt;ContextWrapper&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;     
+  &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;android&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;view&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ContextThemeWrapper&lt;/span&gt;&lt;span class="p"&gt;.(&lt;/span&gt;&lt;span class="n"&gt;ContextThemeWrapper&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;     
+  &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;android&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Activity&lt;/span&gt;&lt;span class="p"&gt;.(&lt;/span&gt;&lt;span class="n"&gt;Activity&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;After some debugging, decompilation and googling I found that Android
+classes my objects need to implement, like the 'android.app.Activity'
+class are rigged to throw this exception. WTF? For some reason Google
+decided to not to include the "real" implementations of (some?) API
+classes in the SDK and replaced them with mere Placeholders. Vicious
+placeholders with constructors rigged to throw devious exceptions. These
+classes are amongst truly the most vicious, test-averse framework code I
+have seen so far.&lt;/p&gt;
+&lt;h4&gt;My way or the Google way&lt;/h4&gt;
+&lt;p&gt;At this point I was faced with a choice: give in to Google and try their
+official way of testing they call "Instrumentation testing" or start
+mocking out the whole Google API enchilada. I decided to try the Google
+way of Android testing first. I read through &lt;a href="http://developer.android.com/guide/topics/testing/testing_android.html"&gt;the awful android testing
+documentation&lt;/a&gt; (Please! Documentation writers: less bla bla, more
+working code samples!). At some point I had it figured out. I derived my
+Test class from the &lt;a href="http://developer.android.com/reference/android/test/ActivityInstrumentationTestCase2.html"&gt;ActivityInstrumentationTestCase2&lt;/a&gt; class, rewired
+some methods and hit the run button. Good thing I generated the project
+to include the test subproject from the start!&lt;/p&gt;
+&lt;p&gt;This time the test would not run in my IDE window because apparently the
+version of JUnit Google includes with the Android SDK is incompatible
+with my IDE. I tried the Maven test target on the IT project but my
+console told me that none of the tests ran. I found that I had to run
+the Maven "install" lifecycle goal in order for the tests to run. That
+doesn't make any sense... but fair enough. Here goes:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="No devices attached error screenshot" src="http://www.printhelloworld.de/images/no-devices-attached-error.png" /&gt;&lt;/p&gt;
+&lt;p&gt;No devices Attached? Oh right, it's an integration test target. It needs
+a device to run. Big bummer.&lt;/p&gt;
+&lt;p&gt;I attached a test device and the whole process of installing the app on
+the device and running the tests finally worked. It took pretty long
+though - between 40 sec. and 1 minute. And what's even worse - my
+mocking libraries (Mockito, EasyMock) turned out to be incompatible with
+the Dalvic VM. And what's worse: I don't want to have an Android Device
+plugged into my CI Server all the time just to run my tests... or have
+the horribly slow Android Emulator starting and shutting down all the
+time. So... while the Google way might be okay for UI- or real
+integration testing it is unsuitable to the rapid iteration that is TDD.
+I need my tests to be fast as hell. And also, I don't want to work
+without a Mocking library.&lt;/p&gt;
+&lt;h4&gt;Salvation&lt;/h4&gt;
+&lt;p&gt;So, at this point I was frustrated enough to consider just mocking the
+whole Google framework. Every. Single. Class. But hark! There is hope,
+yet! After a few hours of googling for alternatives and workaround I
+found a promising project on Github called &lt;a href="http://pivotal.github.com/robolectric/"&gt;Robolectric&lt;/a&gt;. What these
+guys managed is nothing short of genius. They simply shadow the Google
+API dependencies in your project.&lt;/p&gt;
+&lt;p&gt;That's it. It's so easy, it's so simple! All of the hostile 'Stub!'
+exceptions: gone! Almost too good to be true. And it works! It actually
+works! All you really need to do, is add this one Maven dependency to
+your project:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.pivotallabs&lt;span class="nt"&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;robolectric&lt;span class="nt"&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;version&amp;gt;&lt;/span&gt;X.X.X&lt;span class="nt"&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;scope&amp;gt;&lt;/span&gt;test&lt;span class="nt"&gt;&amp;lt;/scope&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;... configure your JUnit 4 Tests to use the RobolectricTestRunner and
+that's it!&lt;/p&gt;
+&lt;p&gt;&lt;img alt="No devices attached error screenshot" src="http://www.printhelloworld.de/images/robolectric-man.png" /&gt;&lt;/p&gt;
+&lt;h4&gt;Epilogue&lt;/h4&gt;
+&lt;p&gt;I probably could have hidden most of my code behind a boundary. As a
+matter of fact that's what I do for "business logic" - the real
+"brainpower" of the app. But there are still valid test cases that
+require me to access decedents of the Android SDK classes. For now I am
+happy to work with Robolectric, in order to test such cases in a fast
+and easy manner on my development machine, with no devices attached or
+emulators running.&lt;/p&gt;
+&lt;p&gt;What shocked me is that Google, a company known for their dedication to
+technical excellence would come up with a framework that is so hostile
+towards such an important practice as TDD. Coming from iOS and the
+pretty testable Cocoa Touch Framework I expected the Android Testing to
+be on par with the Java platform (far ahead of the Apple world). Imagine
+the shock I felt, when I noticed just how wrong I was. As agile methods
+and practices seem to take over the industry, vendors should pay more
+attention to properties that are essential to rapid development and
+frequent delivery - such as simple and fast automated testing.&lt;/p&gt;</summary></entry><entry><title>Resolving the Jenkins Xcode License Agreement Issue</title><link href="http://www.printhelloworld.de/resolve-jenkins-xcode-license-agreement-issue.html" rel="alternate"></link><updated>2012-04-06T22:36:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2012-04-06:resolve-jenkins-xcode-license-agreement-issue.html</id><summary type="html">&lt;p&gt;When I set up a new Jenkins CI Server on OS X in order to build iOS
+Projects I ran into some trouble.&lt;/p&gt;
+&lt;p&gt;The combination of Xcode 4.3, the Jenkins Xcode Plugin 1.3.1 and the
+Jenkins CI Version 1.458 does not seem to play well together. Whenever I
+tried to build an Xcode project, the build failed with the following
+message:  &lt;/p&gt;
+&lt;p&gt;&lt;code&gt;You have not agreed to the Xcode license agreements, please run xcodebuild standalone from within a Terminal window to review and agree to the Xcode license agreements. Build step 'XCode' marked build as failure Finished: FAILURE&lt;/code&gt;  &lt;/p&gt;
+&lt;p&gt;When I went to the terminal and entered the exact same build command
+from the Jenkins logs, the project built just fine. Weird. I googled for
+the error message, but did not find anything on the web.  &lt;/p&gt;
+&lt;p&gt;Soon I discovered the problem: The installer package I got from
+http://jenkins-ci.org installed a LaunchDeamon configuration, running
+Jenkins as the "daemon" user. This is a good thing for security - but
+unfortunately it doesn't work well with the latest Xcode.&lt;/p&gt;
+&lt;p&gt;The solution is to run the following command:&lt;br /&gt;
+&lt;code&gt;sudo xcodebuild -license&lt;/code&gt;&lt;br /&gt;
+This will display the Xcode license agreement, so you can accept it for
+all users on your Mac, including the daemon user. Problem solved. Enjoy
+your Jenkins Server!&lt;/p&gt;</summary></entry><entry><title>Brilliant talks on Software Engineering</title><link href="http://www.printhelloworld.de/brilliant-free-videos-on-software-engineering.html" rel="alternate"></link><updated>2012-03-12T20:07:00+01:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2012-03-12:brilliant-free-videos-on-software-engineering.html</id><summary type="html">&lt;p&gt;I love to watch talks on software engineering. To me, they're a great
+source of inspiration and knowledge, I can just cram somewhere into a
+quiet evening on the couch.&lt;/p&gt;
+&lt;p&gt;I found it quite a discovery that so many videos of talks I deem
+absolutely brilliant are available on the web - for free! And now I
+would like to share with you some of these video gems I discovered so
+far - so without further ado, here's a list of my favorite videos on
+software engineering, grouped by topic&lt;!--more--&gt;:&lt;/p&gt;
+&lt;h2&gt;Agile Software Engineering&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://ndc2011.macsimum.no/mp4/Day2%20Thursday/Track3%200900-1000.mp4"&gt;Agile/XP Overview (DDL)&lt;/a&gt;:
+    Robert Martin shines a spotlight on the flaws of the "traditional"
+    phase-oriented software development methods, before introducing a
+    brief history and the key advantages of Agile methods and how they
+    address the flaws of phase-oriented software development.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://confreaks.com/videos/282-lsrc2010-real-software-engineering"&gt;Real Software Engineering&lt;/a&gt;:
+    This talk by Glenn Vanderburg highlights the misconceptions in
+    software engineering that led to the document-centric,
+    phase-oriented approach to software engineering that is predominant
+    these days. It does so by pointing out the differences between what
+    Vanderburg calls "a caricature of an engineering discipline" that is
+    software engineering and "real" engineering.&lt;/p&gt;
+&lt;h2&gt;Software Architecture&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://confreaks.com/videos/759-rubymidwest2011-keynote-architecture-the-lost-years"&gt;Architecture: The lost years&lt;/a&gt;: &lt;br /&gt;
+    Brilliant keynote delivered by Robert Martin. He presents his
+    preferred architecture for MVC-ish web apps, based on Ivar
+    Jacobson's book "Object-Oriented Software Engineering - A Use Case
+    Driven Approach". Takeway: Good architecture is about introducing
+    abstraction at the right place, to ensure flexibility.&lt;/p&gt;
+&lt;h2&gt;Testing and Test-Driven Development&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://vimeo.com/15007792"&gt;The Deep Synergy Between Testability and Good Design&lt;/a&gt;:
+    Great talk by Michael Feathers, about the way testability issues
+    point out design flaws in software.&lt;/p&gt;
+&lt;h2&gt;Emergent/Evolutionary Design&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://ndc2011.macsimum.no/mp4/Day1%20Wednesday/Track4%201740-1840.mp4"&gt;Evolutionary Design Illustrated (DDL)&lt;/a&gt;:
+    This talk by James Shore introduces the idea of evolutionary design,
+    guided by tests and refactoring. The evolution of a real software
+    system is then visualized by class diagrams of the personal finance
+    tracking software, Shore develops in his &lt;a href="http://jamesshore.com/Blog/Lets-Play/"&gt;Let's Play TDD&lt;/a&gt;
+    screencast.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://ndc2011.macsimum.no/mp4/Day1%20Wednesday/Track5%201740-1840.mp4"&gt;The Transformation Priority Premise (DDL)&lt;/a&gt;:
+    Another talk by Robert Martin, introducing the notion of tests
+    driving algorithm design, followed by an interesting theory, where
+    the order of transformations applied to production code during TDD
+    may have an effect on the quality of the resulting algorithms.&lt;/p&gt;
+&lt;h2&gt;Software Craftsmanship&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://www.parleys.com/#st=5&amp;amp;id=1491&amp;amp;sl=1"&gt;Filling the Professionallism Gap&lt;/a&gt;:
+    In this talk Robert Martin touches upon the alleged lack of
+    professionalism he sees amongst software developers and how the
+    software craftsmanship movement may be a first step towards a more
+    mature software industry.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://ndc2011.macsimum.no/mp4/Day2%20Thursday/Track7%201020-1120.mp4"&gt;Craftsmanship/Deliberate Practice (DDL)&lt;/a&gt;:
+    This talk by Corey Haines touches on a lot of topics: software
+    craftsmanship and the role of practice, TDD, emergent design and
+    professionalism in it.&lt;/p&gt;
+&lt;h2&gt;Domain-Driven Design&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://www.infoq.com/presentations/model-to-work-evans"&gt;DDD: Putting the model to work&lt;/a&gt;:
+    In this talk Eric Evans explains the fundamentals of domain-driven
+    design and how domain modeling may improve the design of software
+    applications with complex problem domains.&lt;/p&gt;
+&lt;p&gt;I hope these videos will inspire you as much as they did me. Also feel
+free to add your own discoveries to this page as a comment :-)&lt;/p&gt;</summary></entry><entry><title>Slides: Writing Testable Code [Updated]</title><link href="http://www.printhelloworld.de/slides-writing-testable-code.html" rel="alternate"></link><updated>2011-08-26T19:42:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2011-08-26:slides-writing-testable-code.html</id><summary type="html">&lt;p&gt;I recently prepared a presentation entitled "Painless Testing - Writing testable
+code" for work and I would like to share it with you. There is a &lt;a href="http://downloads.printhelloworld.de/testing-slides/?lang=python#1"&gt;Python
+Version&lt;/a&gt; of and a &lt;a href="http://downloads.printhelloworld.de/testing-slides/#1"&gt;Java Version&lt;/a&gt; the slides available.&lt;/p&gt;
+&lt;p&gt;These slides will require an HTML5 capable browser such as any recent
+Mozilla Firefox, Google Chrome or Safari version. Press the right/left
+keys on your keyboard or click somewhere near the right or left edge of
+your browser window to switch slides.&lt;/p&gt;
+&lt;p&gt;The talk is based on &lt;a href="http://misko.hevery.com/code-reviewers-guide/"&gt;this amazing guide&lt;/a&gt; by Miško Hevery (Google) and
+others.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; This is the 2nd complete revision of my talk, published on
+March 7th 2012, for my talk at the Java User Group Göttingen.&lt;/p&gt;</summary><category term="code"></category><category term="integration testing"></category><category term="java"></category><category term="ncamp"></category><category term="python"></category><category term="slides"></category><category term="talk"></category><category term="testability"></category><category term="testable code"></category><category term="testing"></category><category term="tests"></category><category term="unit testing"></category></entry><entry><title>Apologies and a clean slate</title><link href="http://www.printhelloworld.de/renaissance-and-apologies.html" rel="alternate"></link><updated>2011-08-02T18:47:00+02:00</updated><author><name>Johannes Seitz</name></author><id>tag:www.printhelloworld.de,2011-08-02:renaissance-and-apologies.html</id><summary type="html">&lt;p&gt;I do apologize for not blogging more the last year or so. This post,
+half apology and half promise, marks my comeback to blogging. Read on if
+you are interested in what I have been up to and what I plan for the
+future.&lt;/p&gt;
+&lt;h4&gt;From grand aspirations to sudden realizations&lt;/h4&gt;
+&lt;p&gt;My Blog was online for a few years, before I decided to take the site
+down for a redesign. Why did I do such a thing, you might ask? Well, the
+answer is twofold... I wanted a big relaunch of my site to accompany my
+entrance into the world of the (somewhat) professional App developer,
+selling Apps on the App Stores of this planet.&lt;/p&gt;
+&lt;p&gt;In unrelated matters, I really wanted to do some project with Django, a
+Python Web Framework I recently learned to love. So I tried to migrate
+my Blog to a Django application for quite a few months.&lt;/p&gt;
+&lt;p&gt;So why did I finally give up and move the Blog back to Wordpress? First
+of all, I found that I couldn't quite settle on a Design. I tried
+several times to come up with a design for the site, but and none of
+them really met the level of quality I expected and I just kept fiddling
+with it until I couldn't see it any more (being a Techie and no
+Designer, I am not ashamed to admit defeat on this matter).&lt;/p&gt;
+&lt;p&gt;The other thing I realized is that I have just too much going on in my
+life right now. I could either keep attempting to half-heartedly put
+something great together, or focus my energies on a fraction of
+activities and accomplish those really well.&lt;/p&gt;
+&lt;p&gt;Long story short: I will discontinue most of the software Projects I
+pursued and focus on a fraction I can maintain.&lt;/p&gt;</summary></entry></feed>

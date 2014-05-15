@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>print("Hello, World!")</title>
+    <meta name="description" content="All about crafting software for Android, iOS and the web. Blog articles on Test-Driven Development, Domain-Driven Design, Software Architecture and more.">
+    <meta name="author" content="Johannes Seitz">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://www.printhelloworld.de/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://www.printhelloworld.de/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://www.printhelloworld.de/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://www.printhelloworld.de/theme/local.css" rel="stylesheet">
+    <link href="http://www.printhelloworld.de/theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://www.printhelloworld.de">print("Hello, World!")</a>
+        <div class="nav-collapse">
+        <ul class="nav">
+            <li><a href="http://www.printhelloworld.de">Blog</a></li>
+            <li><a href="http://www.craftware.de">Freelance website</a></li>
+            
+            <li><a href="http://www.printhelloworld.de/pages/contact.html">Contact / Imprint</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+
+    <div class='article'>
+        <div class="content-title">
+            <a href="http://www.printhelloworld.de/using-git-hooks-to-keep-your-build-stable.html"><h1>Using Git hooks to keep your build stable</h1></a>
+2013-08-13
+
+by <a class="url fn" href="http://www.printhelloworld.de/author/johannes-seitz.html">Johannes Seitz</a>
+ 
+
+
+ 
+        </div>
+        
+        <div><p>A little known fact is that Git supports client-side hooks to execute a
+command line script before certain commands such as <code>commit</code> or <code>push</code>.
+This feature can be used to perform additional quality checks on your
+codebase. What's way cool about it is that Git will actually cancel the
+action if the <a href="http://en.wikipedia.org/wiki/Exit_status">exit status</a> code of a script is not zero. This makes
+it a perfect fit for automated checks making sure you're not shooting
+yourself in the foot.</p>
+<h4>How Git hooks work</h4>
+<p>Creating a hook is very simple: all you need to do is create a shell
+script in the <code>.git/hooks/</code> directory of an existing Git repository. You
+will find several sample hooks in this directory already. All of these
+end with <code>.sample</code>, rendering them inactive. If you create your own,
+make sure this script file you create starts with a <a href="http://de.wikipedia.org/wiki/Shebang">shebang</a> and is
+executable.</p>
+<p><img alt="Git hooks in the shell" src="http://www.printhelloworld.de/images/git-hooks.png" /></p>
+<h4>Make hooks test your every commit</h4>
+<p>I have commit hook perform a full compile and test of my code on every
+commit. Not only does this make sure that everything I commit is stable
+and working, it also makes cherry-picking commits so much easier and
+less risky. Sure it may take some time for the compile and test to run,
+but the time you save, hunting down that issue you just inadvertently
+pushed to the master branch is closer to zero.</p>
+<h4>Make your TODO comments nag</h4>
+<p>I dislike the idea of TODO comments. They are usually markers of a
+<a href="http://en.wikipedia.org/wiki/Broken_windows_theory">broken window</a> but what's worse is that they tend to invisibly rot
+and accumulate. Here's my pre-push hook to keep these broken windows and
+untracked tasks in mind:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="k">def</span> <span class="nf">colorize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">color_code</span><span class="p">)</span>
+  <span class="s2">&quot;</span><span class="si">#{</span><span class="n">color_code</span><span class="si">}#{</span><span class="n">text</span><span class="si">}</span><span class="se">\033</span><span class="s2">[0m</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">red</span><span class="p">(</span><span class="n">text</span><span class="p">);</span> <span class="n">colorize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[31m&quot;</span><span class="p">);</span> <span class="k">end</span>
+<span class="k">def</span> <span class="nf">green</span><span class="p">(</span><span class="n">text</span><span class="p">);</span> <span class="n">colorize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[32m&quot;</span><span class="p">);</span> <span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">command?</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+  <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;which </span><span class="si">#{</span> <span class="n">command</span><span class="si">}</span><span class="s2"> &gt; /dev/null 2&gt;&amp;1&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">tasks</span>
+  <span class="nb">puts</span> <span class="n">green</span><span class="p">(</span><span class="s1">&#39;&gt; Checking TODOs...&#39;</span><span class="p">)</span>
+
+  <span class="n">todo_files</span> <span class="o">=</span> <span class="sb">`find . -not -path &quot;./out/*&quot; -not -path &quot;./play*/*&quot;</span>
+<span class="sb">                -name &quot;*.scala&quot; -exec grep -q &quot;TODO&quot; {} </span><span class="se">\\</span><span class="sb">; -print`</span>
+
+  <span class="k">unless</span> <span class="n">todo_files</span><span class="o">.</span><span class="n">empty?</span>
+    <span class="nb">puts</span> <span class="n">red</span><span class="p">(</span><span class="s2">&quot;&gt; Please fix the following TODOs fist:&quot;</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="n">todo_files</span>
+    <span class="nb">exit</span> <span class="mi">1</span>
+  <span class="k">else</span>
+    <span class="nb">puts</span> <span class="n">green</span><span class="p">(</span><span class="s1">&#39;&gt; All OK&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">tasks</span>
+</pre></div>
+</td></tr></table>
+
+<h4>Share hooks</h4>
+<p>The way Git hooks work, they are not pushed to the remote repository and
+thus not shared with your teammates. A simple solution for this issue is
+to keep the hooks in the Git repository themselves and have a script
+that symlinks them into the local <code>.git</code> directory. You will still need
+to execute this script once on every machine, but your git hooks will be
+shared, versioned and in-sync.</p>
+<p>Here's my symlink script:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="k">def</span> <span class="nf">symlink</span>
+  <span class="o">[</span><span class="s2">&quot;pre-commit&quot;</span><span class="p">,</span> <span class="s2">&quot;pre-push&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">command</span><span class="o">|</span>
+  <span class="sb">`ln -s -f ../../git-hooks/</span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="sb"> ../.git/hooks/</span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="sb">`</span>
+  <span class="sb">`chmod +x ../.git/hooks/</span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="sb">`</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">symlink</span>
+</pre></div>
+</td></tr></table>
+
+<h4>Conclusion</h4>
+<p>In my experience the usage of git hooks for quality assurance to a
+certain extend reduces the number of broken builds and broken windows.
+It is certainly not a silver bullet, but still worthwhile.</p>
+<p>Feel free to add your own ideas and/or suggestions on how to use Git
+hooks for quality assurance to the comment section!</p></div>
+        <hr />
+    </div>
+		
+
+ 
+        
+
+ 
+
+    <div class='article'>
+        <a href="http://www.printhelloworld.de/slides-writing-testable-code.html"><h2>Slides: Writing Testable Code [Updated]</h2></a>
+        <div class= "well small"> 2011-08-26
+
+by <a class="url fn" href="http://www.printhelloworld.de/author/johannes-seitz.html">Johannes Seitz</a>
+ 
+
+
+ </div>
+        <div class="summary"><p>I recently prepared a presentation entitled "Painless Testing - Writing testable
+code" for work and I would like to share it with you. There is a <a href="http://downloads.printhelloworld.de/testing-slides/?lang=python#1">Python
+Version</a> of and a <a href="http://downloads.printhelloworld.de/testing-slides/#1">Java Version</a> the slides available.</p>
+<p>These slides will require an HTML5 capable browser such as any recent
+Mozilla Firefox, Google ...</p> <a class="btn btn-info xsmall" href="http://www.printhelloworld.de/slides-writing-testable-code.html">read more</a></div>
+    </div>	
+				
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="http://www.printhelloworld.de/category/testing.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well">
+                <img src="/images/johannes.jpeg"/>
+                <p>
+                Johannes is a Freelance Software Engineer working in Frankfurt am Main, Germany.<br/><br/>
+                His passion is developing high quality Mobile- and Web applications using lean and agile approaches.<br/>
+                </p>
+            </div>
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header">
+                Find me on
+                </li>
+
+                <li><a href="https://xing.com/profile/Johannes_Seitz2">Xing</a></li>
+                <li><a href="https://twitter.com/ookami86">Twitter</a></li>
+                <li><a href="https://github.com/Ookami86/">Github</a></li>
+                <li><a href="http://stackoverflow.com/users/641189/johannes">StackOverflow</a></li>
+            </ul>
+            </div>
+            </div>
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://www.printhelloworld.de/">Archives</a>
+                <li><a href="http://www.printhelloworld.de/tags.html">Tags</a>
+                <li><a href="http://www.printhelloworld.de/" rel="alternate">Atom feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://www.printhelloworld.de/category/conference-videos.html">Conference Videos</a></li>
+                <li><a href="http://www.printhelloworld.de/category/continuous-integration-ios.html">Continuous Integration iOS</a></li>
+                <li><a href="http://www.printhelloworld.de/category/other.html">Other</a></li>
+                <li><a href="http://www.printhelloworld.de/category/persistency.html">Persistency</a></li>
+                <li><a href="http://www.printhelloworld.de/category/psychology.html">Psychology</a></li>
+                <li><a href="http://www.printhelloworld.de/category/testing.html">Testing</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://www.bechte.de/">Stefan Bechtold</a></li>
+                <li><a href="http://www.heikomaass.de/">Heiko Maaß</a></li>
+            </ul>
+            </div>
+
+
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://www.printhelloworld.de">print("Hello, World!")</a> &copy; Johannes Seitz 2011-2014</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://www.printhelloworld.de/theme/jquery-1.11.1.min.js"></script>
+<script src="http://www.printhelloworld.de/theme/bootstrap.min.js"></script>
+<script>var _gaq=[['_setAccount','UA-47774011-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+</body>
+</html>

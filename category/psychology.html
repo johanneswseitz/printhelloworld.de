@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>print("Hello, World!")</title>
+    <meta name="description" content="All about crafting software for Android, iOS and the web. Blog articles on Test-Driven Development, Domain-Driven Design, Software Architecture and more.">
+    <meta name="author" content="Johannes Seitz">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://www.printhelloworld.de/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://www.printhelloworld.de/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://www.printhelloworld.de/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://www.printhelloworld.de/theme/local.css" rel="stylesheet">
+    <link href="http://www.printhelloworld.de/theme/pygments.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://www.printhelloworld.de">print("Hello, World!")</a>
+        <div class="nav-collapse">
+        <ul class="nav">
+            <li><a href="http://www.printhelloworld.de">Blog</a></li>
+            <li><a href="http://www.craftware.de">Freelance website</a></li>
+            
+            <li><a href="http://www.printhelloworld.de/pages/contact.html">Contact / Imprint</a></li>
+        </ul>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+        
+
+        
+
+
+    <div class='article'>
+        <div class="content-title">
+            <a href="http://www.printhelloworld.de/be-aware-of-hyperbolic-discounting-when-adopting-tdd.html"><h1>Resisting marshmallows is hard. Adopting TDD, too.</h1></a>
+2013-04-10
+
+by <a class="url fn" href="http://www.printhelloworld.de/author/johannes-seitz.html">Johannes Seitz</a>
+ 
+
+
+ 
+        </div>
+        
+        <div><p>We are not as rational as we think we are. Or as Dan Ariley might put
+it: <a href="http://www.youtube.com/watch?v=JhjUJTw2i1M">We're All Predictably Irrational</a>. The other day I read "Die
+Kunst des klaren Denkens" (lit: The art of clear thinking) by Swiss
+author Rolf Dobelli. One of the common logical fallacies Dobelli  <br />
+describes in this book is the fallacy of <a href="http://en.wikipedia.org/wiki/Hyperbolic_discounting">Hyperbolic Discounting</a> -
+the inclination to value immediate rewards over over delayed rewards. It
+seems to me, this human predisposition like no other lies at the heart
+of many mistakes in software development, including failed attempts
+adopting Test-Driven Development (TDD).</p>
+<p>But first, let's look at the research on Hyperbolic Discounting. The
+inclination to favor immediate rewards over long-term rewards is also
+observed in animals and is likely to be a remainder of our animalistic
+past. Animals, for the most part, do not show the ability to postpone
+gratification. One particularly famous example, illustrating our human
+struggle to deal with delayed gratification is the <a href="http://en.wikipedia.org/wiki/Marshmallow_experiment">Stanford Marshmallow
+experiment</a>. In this experiment children were offered a small,
+immediate reward (e.G. a single marshmallow) or a bigger, delayed reward
+(e.G. two marshmallows in 15 Min). <!--more--> The rational thing to do,
+would be to wait a bit. Needless to say it took the kids a lot of effort
+to resist immediate gratification:</p>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/QX_oy9614HQ" frameborder="0" allowfullscreen></iframe>
+
+<p>What's interesting is that these experiments not only illustrate our
+difficulty resisting immediate gratification, but also found that
+children with the ability to wait longer for the preferred rewards
+tended to have better life outcomes, as measured by SAT scores,
+educational attainment, body mass index (BMI) and other life measures.
+Every developer reading this will probably remember a case where he/she
+tried to solve an issue the simple, elegant way, eventually resorting to
+some kind of hack due to unforeseen issues or perceived time pressure.
+Being "done" early and especially being "done" on time is gratifying to
+us.</p>
+<p>How do these observations relate to the adoption of Test-Driven
+Development? Test-Driven development has been shown to reduce the amount
+of defects in software by researchers at <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.129.7992">IBM</a> and <a href="http://research.microsoft.com/en-us/groups/ese/nagappan_tdd.pdf">Microsoft</a>. TDD
+has also been shown to point out flawed design- and architectural
+aspects of software, as pointed out in the talk "<a href="http://vimeo.com/15007792">The Deep Synergy
+Between Testability and Good Design</a>" by Michael Feathers. In my
+experience however, the biggest payoff for the Test-Driven approach is
+the ability to rapidly fix mistakes you make later on. The significant
+test coverage obtained by test-driving code acts as a safety net -
+catching most of the mistakes you will inevitably make along the way,
+cleaning and refactoring your code. It is the only professional way I
+know, to confidently keep large code basis from rotting. This fact has
+been stressed by Uncle Bob over and over and over again.</p>
+<p>And yet it seems to me that software developers rarely embrace
+Test-Driven Development. Why is that? I suppose it is not only because
+of the steep learning curve. My former colleague <a href="http://www.zustandsforschung.de/index.php/tdd-ist-ganz-schoen-schwer/">Benedikt Eger blogged
+about that (in German)</a>. From an emotional point of view Test-Driven
+Development is a developer's nightmare. It will make you feel bad. It
+will challenge you to think about the problem and how to test it, before
+even writing the first, gratifying line of ("real", productive) code. It
+will point out the flaws in your design and make testing hard every time
+you get it wrong. And last but not least, you will feel like you could
+be so much faster, if only you wouldn't have to write these stupid
+tests. And all that for the delayed gratification of being able to
+confidently alter code a few months or years from now.</p>
+<p>Needless to say, I think you should resist the temptation of immediate
+gratification. Instead, try at least to do the right thing and start
+with a test. You might not immediately be able to test-drive 100% of the
+code you write, but as time progresses you will improve and find ways to
+test these spots you missed earlier. Be aware of the Hyperbolic
+Discounting fallacy and practice self-control. Your patience and
+discipline will be rewarded tenfold, eventually. It is the rational
+thing to do.</p></div>
+        <hr />
+    </div>
+		
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="http://www.printhelloworld.de/category/psychology.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        <div class="span3">
+
+            <div class="well">
+                <img src="/images/johannes.jpeg"/>
+                <p>
+                Johannes is a Freelance Software Engineer working in Frankfurt am Main, Germany.<br/><br/>
+                His passion is developing high quality Mobile- and Web applications using lean and agile approaches.<br/>
+                </p>
+            </div>
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header">
+                Find me on
+                </li>
+
+                <li><a href="https://xing.com/profile/Johannes_Seitz2">Xing</a></li>
+                <li><a href="https://twitter.com/ookami86">Twitter</a></li>
+                <li><a href="https://github.com/Ookami86/">Github</a></li>
+                <li><a href="http://stackoverflow.com/users/641189/johannes">StackOverflow</a></li>
+            </ul>
+            </div>
+            </div>
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Site
+                </li>
+            
+                <li><a href="http://www.printhelloworld.de/">Archives</a>
+                <li><a href="http://www.printhelloworld.de/tags.html">Tags</a>
+                <li><a href="http://www.printhelloworld.de/" rel="alternate">Atom feed</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Categories
+                </li>
+                
+                <li><a href="http://www.printhelloworld.de/category/conference-videos.html">Conference Videos</a></li>
+                <li><a href="http://www.printhelloworld.de/category/continuous-integration-ios.html">Continuous Integration iOS</a></li>
+                <li><a href="http://www.printhelloworld.de/category/other.html">Other</a></li>
+                <li><a href="http://www.printhelloworld.de/category/persistency.html">Persistency</a></li>
+                <li><a href="http://www.printhelloworld.de/category/psychology.html">Psychology</a></li>
+                <li><a href="http://www.printhelloworld.de/category/testing.html">Testing</a></li>
+                   
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header"> 
+                Links
+                </li>
+            
+                <li><a href="http://www.bechte.de/">Stefan Bechtold</a></li>
+                <li><a href="http://www.heikomaass.de/">Heiko Maaß</a></li>
+            </ul>
+            </div>
+
+
+
+        </div>  
+    </div>     </div> 
+<footer>
+<br />
+<p><a href="http://www.printhelloworld.de">print("Hello, World!")</a> &copy; Johannes Seitz 2011-2014</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="http://www.printhelloworld.de/theme/jquery-1.11.1.min.js"></script>
+<script src="http://www.printhelloworld.de/theme/bootstrap.min.js"></script>
+<script>var _gaq=[['_setAccount','UA-47774011-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+</body>
+</html>
