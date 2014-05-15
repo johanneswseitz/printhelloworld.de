@@ -17,11 +17,11 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
 PATH = "content"
-#STATIC_PATHS = ["images", "downloads",]
+STATIC_PATHS = ["images","CNAME",]
 
 # Blogroll
 LINKS = (('Stefan Bechtold', 'http://www.bechte.de/'),
-          ('Heiko Maaß', 'http://www.heikomaass.de/'),)
+          ('Heiko Maass', 'http://www.heikomaass.de/'),)
 
 THEME = "themes/tuxlite_tbs"
 
