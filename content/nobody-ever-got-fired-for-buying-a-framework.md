@@ -12,7 +12,7 @@ Today James Shore struck a nerve with me when he tweeted:
 
 However, the question on my mind is not so much **when** people started using frameworks as a substitute for good design. I am more interested in the **why**? 
 
-In my career as a software developer I've been working with frameworks quite a lot. That is when I came to hypothesise about the incentives that lead to the adoption of frameworks. I also suffert from the often overlooked drawbacks of building upon a framework. 
+In my career as a software developer I've been working with frameworks quite a lot. That is when I came to hypothesise about the incentives that lead to the adoption of frameworks. I also suffered from the often overlooked drawbacks of building upon a framework. 
 
 This essay is the first in a series, explaining my thoughts why businesses choose to buy into frameworks in a big way. The next article in this series will explain why I feel some developers cling too much to their frameworks. The final article in this series will contain my advice for evaluating and choosing frameworks. So let's get started!
 
@@ -26,7 +26,7 @@ Software projects still come with lots of risk from a business perspective. And 
 
 Buying a framework ensures that some core functionality is already working. Why would anyone build his/her own content management system or e-commerce platform or web framework, when you can just get one from an industry-leading vendor and tinker with it? Look, there's a list of Fortune 500 companies on the website of the vendor. If it's good enough for them, it ought to be good enough for anyone. 
 
-Depending on the product the decision to buy may be pretty expensive, but the perceived risk is close to zero. And the return on investment is already nigh. 
+Depending on the product the decision to buy may be pretty expensive, but the perceived risk is close to zero. And the return on investment is already high. 
 
 ### Let's call in the experts
 
@@ -40,13 +40,13 @@ Of course most of the core functionality is already part of the framework. So we
 
 ## Overlooked drawbacks
 
-All these arguments appeal to managers. Especially non-technical managers. The over-arching theme is: risk mitigation. What non-technical managers do not see, are the limitations of these frameworks. Especially when they come in the guise of shiny marketing promises. It's the proven, no-risk Lego tool-kit to solve all your problems.
+All these arguments appeal to managers. Especially non-technical managers. The over-arching theme is: risk mitigation. What non-technical managers do not see, are the limitations of these frameworks. Especially when they come in the guise of shiny marketing promises. It's the proven, no-risk Lego toolkit to solve all your problems.
 
 ### Serious limitations
 
-Every framework comes with a certain set of design choices already made. That is what makes developers building on frameworks much faster. There's nothing wrong with that, but it will restrain the possibilities of any product built upon this framework. Good frameworks come with modularity and allow for developers to swap out parts that do not match their needs. 
+Every framework comes with a certain set of design choices already made. That is what makes developers building on frameworks much faster. There's nothing wrong with that, but it will prevent the possibilities of any product built upon this framework. Good frameworks come with modularity and allow for developers to swap out parts that do not match their needs. 
 
-But some things are not easily changed. When the framework is missing hooks and interfaces to customise or replace parts of the system, it restraints possiblities. I suppose that is where the common saying amongst developers that "Frameworks make 80% of the work easy and 20% impossible" comes from.
+But some things are not easily changed. When the framework is missing hooks and interfaces to customise or replace parts of the system, it prevents possiblities. I suppose that is where the common saying amongst developers that "Frameworks make 80% of the work easy and 20% impossible" comes from.
 
 This happens for example, when the framework dictates a CRUD based approach for user interaction. This approach forces users are to interact only by creating, reading, editing or deleting things. These approaches are popular, because frameworks may generate most of the code from declarative descriptions of entities.  But the one serious drawback of this approach is that user interfaces are bound to reflect the underlying data structures. That is why they do not allow for what [the DDD community came to call a "Task-Based UI"](https://cqrs.wordpress.com/documents/task-based-ui/). A CRUD based UI revolves around data structures. It does not reveal how these data structures inter-relate and certainly not around what the user is trying to accomplish. 
 
@@ -60,7 +60,7 @@ There is another corollary to the limitations explained in the previous sections
 
 What would happen if the iTunes media store or Amazon was just another online shop, hosted on the shoulders of a shop framework? It's unimaginable. These companies build their own ecosystems. They dominate markets with constant innovation. Any attempt to build these services on anyhting but custom software would surely end up with fowl compromise or complete failure.
 
-Developing innovative solutions in framework sandboxes can be hard, due to the limitaionts. If there is no standard way to do something with your framework, you are on your own. And it gets even tougher when you outsource projects to someone else.  You will need to work closely with a talented development team to come up with simple and workable solutions. And when you decided to outsource the product development to someone else, you are not in control. You might even get the frustrating answer that it can't be done. Consider the oportunity cost.
+Developing innovative solutions in framework sandboxes can be hard, due to the limitations. If there is no standard way to do something with your framework, you are on your own. And it gets even tougher when you outsource projects to someone else.  You will need to work closely with a talented development team to come up with simple and workable solutions. And when you decided to outsource the product development to someone else, you are not in control. You might even get the frustrating answer that it can't be done. Consider the oportunity cost.
 
 ### All grunt work and no play make Jake a dull boy
 
