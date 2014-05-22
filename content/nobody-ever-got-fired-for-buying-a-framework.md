@@ -16,7 +16,7 @@ In my career as a software developer I've been working with frameworks quite a l
 
 This essay is the first in a series, explaining my thoughts why businesses choose to buy into frameworks in a big way. The next article in this series will explain why I feel some developers cling too much to their frameworks. The final article in this series will contain my advice for evaluating and choosing frameworks. So let's get started!
 
-**[Edit]** Sandro Mancouso has [been pointing out to me](https://twitter.com/sandromancuso/status/469473193414365184) that I never defined the term "framework", so here goes: I draw the line between a framework and a library by the flow of control. A framework calls your code (thus limiting your control), whereas with a library, your code is calling the library code. I have no issue with the use of libraries.
+**[Edit]** Sandro Mancuso has [been pointing out to me](https://twitter.com/sandromancuso/status/469473193414365184) that I never defined the term "framework", so here goes: I draw the line between a framework and a library by the flow of control. A framework calls your code (thus limiting your control), whereas with a library, your code is calling the library code. I have no issue with the use of libraries.
 
  Nevertheless, there are frameworks out there that are modularised so you can only use parts of them. They are non-invasive and/or very extendable by nature, e. G. due to a plug-in architecture. Some of the following arguments do not apply to these types of frameworks. I will explain the difference in the third article. **[/Edit]**
 
