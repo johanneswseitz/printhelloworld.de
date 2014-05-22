@@ -1,5 +1,5 @@
 Title: Nobody ever got fired for buying a framework
-Date: 2014-05-21 17:00
+Date: 2014-05-22 09:15
 Author: Johannes Seitz
 Category: Essays
 Tags: psychology, frameworks
@@ -12,7 +12,7 @@ Today James Shore struck a nerve with me when he tweeted:
 
 However, the question on my mind is not so much **when** people started using frameworks as a substitute for good design. I am more interested in the **why**? 
 
-In my career as a software developer I've been working with frameworks quite a lot. That is when I came to hypothesise about the incentives that lead to the adoption of frameworks. I also suffert from the often overlooked drawbacks of building upon a framework. 
+In my career as a software developer I've been working with frameworks quite a lot. That is when I came to hypothesise about the incentives that lead to the adoption of frameworks. I also suffered from the often overlooked drawbacks of building upon a framework. 
 
 This essay is the first in a series, explaining my thoughts why businesses choose to buy into frameworks in a big way. The next article in this series will explain why I feel some developers cling too much to their frameworks. The final article in this series will contain my advice for evaluating and choosing frameworks. So let's get started!
 
@@ -40,11 +40,11 @@ Of course most of the core functionality is already part of the framework. So we
 
 ## Overlooked drawbacks
 
-All these arguments appeal to managers. Especially non-technical managers. The over-arching theme is: risk mitigation. What non-technical managers do not see, are the limitations of these frameworks. Especially when they come in the guise of shiny marketing promises. It's the proven, no-risk Lego tool-kit to solve all your problems.
+All these arguments appeal to managers. Especially non-technical managers. The over-arching theme is: risk mitigation. What non-technical managers do not see, are the limitations of these frameworks. Especially when they come in the guise of shiny marketing promises. It's the proven, no-risk Lego toolkit to solve all your problems.
 
 ### Serious limitations
 
-Every framework comes with a certain set of design choices already made. That is what makes developers building on frameworks much faster. There's nothing wrong with that, but it will restrain the possibilities of any product built upon this framework. Good frameworks come with modularity and allow for developers to swap out parts that do not match their needs. 
+Every framework comes with a certain set of design choices already made. That is what makes developers building on frameworks much faster. There's nothing wrong with that, but it put limitations on the possibilities of any product built upon this framework. Good frameworks come with modularity and allow for developers to swap out parts that do not match their needs. 
 
 But some things are not easily changed. When the framework is missing hooks and interfaces to customise or replace parts of the system, it restraints possiblities. I suppose that is where the common saying amongst developers that "Frameworks make 80% of the work easy and 20% impossible" comes from.
 
@@ -60,16 +60,16 @@ There is another corollary to the limitations explained in the previous sections
 
 What would happen if the iTunes media store or Amazon was just another online shop, hosted on the shoulders of a shop framework? It's unimaginable. These companies build their own ecosystems. They dominate markets with constant innovation. Any attempt to build these services on anyhting but custom software would surely end up with fowl compromise or complete failure.
 
-Developing innovative solutions in framework sandboxes can be hard, due to the limitaionts. If there is no standard way to do something with your framework, you are on your own. And it gets even tougher when you outsource projects to someone else.  You will need to work closely with a talented development team to come up with simple and workable solutions. And when you decided to outsource the product development to someone else, you are not in control. You might even get the frustrating answer that it can't be done. Consider the oportunity cost.
+Developing innovative solutions in framework sandboxes can be hard, due to the limitations. If there is no standard way to do something with your framework, you are on your own. And it gets even tougher when you outsource projects to someone else. You will need to work closely with a talented development team to come up with simple and workable solutions. And when you decided to outsource the product development to someone else, you are not in control. You might even get the frustrating answer that it can't be done. Consider the oportunity cost.
 
 ### All grunt work and no play make Jake a dull boy
 
 As a developer, working with a framework can be pretty dull sometimes. When you are solving the same problems in slight variation over and over again, you are bound to get bored. At least that is I felt working with these frameworks. The most interesting things happen when you break out of the framework sandbox. When you devise hacks that trick the system or just completly decouple yourself and do your own thing.
 
-From a business point of view that's an advantage, because all you need to do is hire average developers with high tolerance for repetitive work. These are the buerocrats of the software development world, who actually enjoy this kind of dull grunt work, because you rarely need to think for yourself.
+From a business point of view that's an advantage. All you need to do is hire average developers with high tolerance for repetitive work and send them to a framework class. This is much cheaper for the business. That is because in our industry even a university education rarely involves the teaching of engineering skills necessary to build original systems like the ability to conciously weigh trade-offs. We will talk more about what this means for the software developers that build upon a framework in an upcoming article.
 
-## What should you do?
+## Ok, so what shall we do?
 
-These are just some of the pros and cons you should consider when you or your company is faced with the old "build or buy" question. I prefer to make my decisions based on careful reasoning and valuation of the given options. But even so I think that "buy" is the still the default for a lot of companies.
+These are just some of the pros and cons you should consider when you or your company is faced with the old "build or buy" question. I prefer to make my decisions based on careful reasoning and valuation of the given options. But even so I think that "buy" is the still the default for a lot of companies. Keep in mind that building upon a framework may limit your ability to innovate.
 
 We will continue with my observations of the framework developer in an upcoming part 2 of this article. I will subsequently post a third article about my process for evaluating frameworks. I will also introduces measures to (at least partially) protect projects from framework lock-in effects. This may give development teams the ability to gracefully recover from bad framework choices.
