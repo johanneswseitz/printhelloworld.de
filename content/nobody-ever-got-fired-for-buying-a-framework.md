@@ -14,6 +14,10 @@ However, the question on my mind is not so much **when** people started using fr
 
 In my career as a software developer I've been working with frameworks quite a lot. That is when I came to hypothesise about the incentives that lead to the adoption of frameworks. I also suffered from the often overlooked drawbacks of building upon a framework. 
 
+[Edit] Sandro Mancouso has been pointing out that I never defined the term "framework", so here goes: I draw the line between a framework and a library by the flow of control. A framework calls your code (thus limiting your control), whereas with a library, your code is calling the library code.
+
+ Nevertheless, there are frameworks out there that are modularised so you can only use parts of them. They are non-invasive and/or very extendable by nature, e. G. due to a plug-in architecture. Some of the following arguments may not apply to these types of frameworks. I will explain the difference in the third article. [/Edit] 
+
 This essay is the first in a series, explaining my thoughts why businesses choose to buy into frameworks in a big way. The next article in this series will explain why I feel some developers cling too much to their frameworks. The final article in this series will contain my advice for evaluating and choosing frameworks. So let's get started!
 
 ## Advantages to the business 
