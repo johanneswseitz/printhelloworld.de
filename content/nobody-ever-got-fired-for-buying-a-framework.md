@@ -62,7 +62,7 @@ Of course there may be a way to work around these limitations. Hacking the frame
 
 There is another corollary to the limitations explained in the previous sections. **When everyone in the industry is using the same standard software to build upon, gaining a competitive edge is really hard**. That is especially true when it comes to businesses making most of their money online or moving online at a rapid pace like the music and news content industry.
 
-What would happen if the iTunes media store or Amazon was just another online shop, hosted on the shoulders of a shop framework? It's unimaginable. These companies build their own ecosystems. They dominate markets with constant innovation. Any attempt to build these services on anyhting but custom software would surely end up with fowl compromise or complete failure.
+What would happen if the iTunes media store or Amazon was just another online shop, hosted on the shoulders of a shop framework? It's unimaginable. These companies build their own ecosystems. They dominate markets with constant innovation. Any attempt to build these services on anyhting but custom software would surely end up with foul compromise or complete failure.
 
 Developing innovative solutions in framework sandboxes can be hard, due to the limitations. If there is no standard way to do something with your framework, you are on your own. And it gets even tougher when you outsource projects to someone else. You will need to work closely with a talented development team to come up with simple and workable solutions. And when you decided to outsource the product development to someone else, you are not in control. You might even get the frustrating answer that it can't be done. Consider the oportunity cost.
 
