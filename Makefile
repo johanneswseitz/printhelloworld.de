@@ -12,7 +12,7 @@ FTP_HOST=localhost
 FTP_USER=anonymous
 FTP_TARGET_DIR=/
 
-SSH_HOST=aquila.uberspace.de
+SSH_HOST=printhelloworld.de
 SSH_PORT=22
 SSH_USER=joseitz
 SSH_TARGET_DIR=/home/joseitz/html
