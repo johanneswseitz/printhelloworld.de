@@ -10,7 +10,7 @@ import sys
 sys.path.append(os.curdir)
 from pelicanconf import *
 
-SITEURL = 'http://www.printhelloworld.de'
+SITEURL = 'https://www.printhelloworld.de'
 RELATIVE_URLS = False
 
 MENUITEMS = (('Blog', SITEURL),
